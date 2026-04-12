@@ -1,0 +1,1406 @@
+{
+  "metadata": {
+    "generated": "2026-04-06",
+    "period": "Jan 2020 \u2013 Dec 2023",
+    "collisions": 585,
+    "video_events": 581739,
+    "block_groups": 1609,
+    "note_forecast": "30-day forecast uses last 30 days of observed events_num_Z as exogenous proxy. No future data available past 2023-12-31.",
+    "arimax": {
+      "order": "ARIMAX(3,0,3)",
+      "aic": 4027.06,
+      "bic": 4074.64,
+      "aic_baseline": 4037.83,
+      "n_obs": 1461,
+      "exog_coeff": 0.083,
+      "exog_pvalue": 0.0018,
+      "r_squared": null,
+      "ar": {
+        "ar.L1": {
+          "coeff": -0.6875,
+          "pvalue": 0.0
+        },
+        "ar.L2": {
+          "coeff": 0.4657,
+          "pvalue": 0.0
+        },
+        "ar.L3": {
+          "coeff": 0.8793,
+          "pvalue": 0.0
+        }
+      },
+      "ma": {
+        "ma.L1": {
+          "coeff": 0.6072,
+          "pvalue": 0.728
+        },
+        "ma.L2": {
+          "coeff": -0.6142,
+          "pvalue": 0.8267
+        },
+        "ma.L3": {
+          "coeff": -0.9929,
+          "pvalue": 0.5668
+        }
+      }
+    },
+    "gwr": {
+      "kernel": "Adaptive Exponential",
+      "bandwidth": 65,
+      "mean_r2": 0.529,
+      "aicc": 3579.992,
+      "ols_aicc": 3950.0,
+      "behaviors": [
+        "pedestrian_bicyclist",
+        "late_response",
+        "posted_speed_violation",
+        "driver_unbelted_roadway",
+        "incomplete_stop",
+        "food_and_drink",
+        "failed_to_keep_an_out"
+      ]
+    }
+  },
+  "TEMPORAL_DATA": [
+    {
+      "month": "Jan 20",
+      "videoEvents": 188.2,
+      "collisionRate": 1.2173,
+      "ma": 1.3708
+    },
+    {
+      "month": "Feb 20",
+      "videoEvents": 166.7,
+      "collisionRate": 1.4853,
+      "ma": 1.3791
+    },
+    {
+      "month": "Mar 20",
+      "videoEvents": 132.7,
+      "collisionRate": 1.5662,
+      "ma": 0.8217
+    },
+    {
+      "month": "Apr 20",
+      "videoEvents": 103.3,
+      "collisionRate": 0.72,
+      "ma": 1.4641
+    },
+    {
+      "month": "May 20",
+      "videoEvents": 109.5,
+      "collisionRate": 0.7239,
+      "ma": 1.3739
+    },
+    {
+      "month": "Jun 20",
+      "videoEvents": 118.2,
+      "collisionRate": 1.648,
+      "ma": 1.6961
+    },
+    {
+      "month": "Jul 20",
+      "videoEvents": 124.3,
+      "collisionRate": 1.3494,
+      "ma": 1.8788
+    },
+    {
+      "month": "Aug 20",
+      "videoEvents": 141.9,
+      "collisionRate": 1.8497,
+      "ma": 1.1387
+    },
+    {
+      "month": "Sep 20",
+      "videoEvents": 174.0,
+      "collisionRate": 1.1855,
+      "ma": 1.5689
+    },
+    {
+      "month": "Oct 20",
+      "videoEvents": 144.5,
+      "collisionRate": 1.2381,
+      "ma": 0.9545
+    },
+    {
+      "month": "Nov 20",
+      "videoEvents": 147.2,
+      "collisionRate": 0.8162,
+      "ma": 1.2503
+    },
+    {
+      "month": "Dec 20",
+      "videoEvents": 154.5,
+      "collisionRate": 1.4216,
+      "ma": 1.0002
+    },
+    {
+      "month": "Jan 21",
+      "videoEvents": 156.1,
+      "collisionRate": 1.5278,
+      "ma": 1.7275
+    },
+    {
+      "month": "Feb 21",
+      "videoEvents": 136.2,
+      "collisionRate": 0.7555,
+      "ma": 1.9627
+    },
+    {
+      "month": "Mar 21",
+      "videoEvents": 156.4,
+      "collisionRate": 0.4795,
+      "ma": 1.2885
+    },
+    {
+      "month": "Apr 21",
+      "videoEvents": 149.9,
+      "collisionRate": 0.8857,
+      "ma": 1.9082
+    },
+    {
+      "month": "May 21",
+      "videoEvents": 142.1,
+      "collisionRate": 1.1089,
+      "ma": 1.5588
+    },
+    {
+      "month": "Jun 21",
+      "videoEvents": 165.2,
+      "collisionRate": 1.6178,
+      "ma": 1.5845
+    },
+    {
+      "month": "Jul 21",
+      "videoEvents": 171.5,
+      "collisionRate": 2.1189,
+      "ma": 1.4005
+    },
+    {
+      "month": "Aug 21",
+      "videoEvents": 175.3,
+      "collisionRate": 1.6416,
+      "ma": 1.5849
+    },
+    {
+      "month": "Sep 21",
+      "videoEvents": 191.2,
+      "collisionRate": 1.4792,
+      "ma": 1.0457
+    },
+    {
+      "month": "Oct 21",
+      "videoEvents": 186.5,
+      "collisionRate": 0.9871,
+      "ma": 1.3587
+    },
+    {
+      "month": "Nov 21",
+      "videoEvents": 202.2,
+      "collisionRate": 1.9516,
+      "ma": 1.7095
+    },
+    {
+      "month": "Dec 21",
+      "videoEvents": 171.2,
+      "collisionRate": 1.1322,
+      "ma": 1.9978
+    },
+    {
+      "month": "Jan 22",
+      "videoEvents": 160.0,
+      "collisionRate": 1.1148,
+      "ma": 1.4121
+    },
+    {
+      "month": "Feb 22",
+      "videoEvents": 198.4,
+      "collisionRate": 1.3674,
+      "ma": 1.631
+    },
+    {
+      "month": "Mar 22",
+      "videoEvents": 231.7,
+      "collisionRate": 1.0831,
+      "ma": 1.1225
+    },
+    {
+      "month": "Apr 22",
+      "videoEvents": 228.6,
+      "collisionRate": 1.2753,
+      "ma": 0.9704
+    },
+    {
+      "month": "May 22",
+      "videoEvents": 244.4,
+      "collisionRate": 1.2128,
+      "ma": 0.6276
+    },
+    {
+      "month": "Jun 22",
+      "videoEvents": 381.3,
+      "collisionRate": 1.053,
+      "ma": 1.2095
+    },
+    {
+      "month": "Jul 22",
+      "videoEvents": 544.1,
+      "collisionRate": 2.2874,
+      "ma": 1.1809
+    },
+    {
+      "month": "Aug 22",
+      "videoEvents": 739.4,
+      "collisionRate": 0.9439,
+      "ma": 1.6938
+    },
+    {
+      "month": "Sep 22",
+      "videoEvents": 719.6,
+      "collisionRate": 1.8099,
+      "ma": 1.7209
+    },
+    {
+      "month": "Oct 22",
+      "videoEvents": 726.4,
+      "collisionRate": 1.1794,
+      "ma": 1.3772
+    },
+    {
+      "month": "Nov 22",
+      "videoEvents": 772.3,
+      "collisionRate": 1.1491,
+      "ma": 1.176
+    },
+    {
+      "month": "Dec 22",
+      "videoEvents": 786.0,
+      "collisionRate": 1.5153,
+      "ma": 1.0296
+    },
+    {
+      "month": "Jan 23",
+      "videoEvents": 741.6,
+      "collisionRate": 1.4753,
+      "ma": 1.2467
+    },
+    {
+      "month": "Feb 23",
+      "videoEvents": 723.7,
+      "collisionRate": 1.5373,
+      "ma": 0.7268
+    },
+    {
+      "month": "Mar 23",
+      "videoEvents": 784.9,
+      "collisionRate": 1.479,
+      "ma": 1.6699
+    },
+    {
+      "month": "Apr 23",
+      "videoEvents": 579.4,
+      "collisionRate": 1.1934,
+      "ma": 1.1941
+    },
+    {
+      "month": "May 23",
+      "videoEvents": 559.5,
+      "collisionRate": 2.347,
+      "ma": 0.9954
+    },
+    {
+      "month": "Jun 23",
+      "videoEvents": 950.1,
+      "collisionRate": 1.7072,
+      "ma": 1.3394
+    },
+    {
+      "month": "Jul 23",
+      "videoEvents": 894.7,
+      "collisionRate": 1.6225,
+      "ma": 1.5351
+    },
+    {
+      "month": "Aug 23",
+      "videoEvents": 890.4,
+      "collisionRate": 1.9544,
+      "ma": 1.4695
+    },
+    {
+      "month": "Sep 23",
+      "videoEvents": 894.5,
+      "collisionRate": 2.4739,
+      "ma": 1.5621
+    },
+    {
+      "month": "Oct 23",
+      "videoEvents": 954.0,
+      "collisionRate": 1.6008,
+      "ma": 1.7049
+    },
+    {
+      "month": "Nov 23",
+      "videoEvents": 954.6,
+      "collisionRate": 1.2406,
+      "ma": 1.342
+    },
+    {
+      "month": "Dec 23",
+      "videoEvents": 727.5,
+      "collisionRate": 1.6008,
+      "ma": 2.109
+    }
+  ],
+  "FORECAST_DATA": [
+    {
+      "date": "2024-01-01",
+      "label": "Jan 01",
+      "forecast": 1.1962,
+      "ci_lo": 0,
+      "ci_hi": 4.8344
+    },
+    {
+      "date": "2024-01-02",
+      "label": "Jan 02",
+      "forecast": 1.1943,
+      "ci_lo": 0,
+      "ci_hi": 4.844
+    },
+    {
+      "date": "2024-01-03",
+      "label": "Jan 03",
+      "forecast": 1.6293,
+      "ci_lo": 0,
+      "ci_hi": 5.2946
+    },
+    {
+      "date": "2024-01-04",
+      "label": "Jan 04",
+      "forecast": 1.5664,
+      "ci_lo": 0,
+      "ci_hi": 5.2452
+    },
+    {
+      "date": "2024-01-05",
+      "label": "Jan 05",
+      "forecast": 1.6781,
+      "ci_lo": 0,
+      "ci_hi": 5.362
+    },
+    {
+      "date": "2024-01-06",
+      "label": "Jan 06",
+      "forecast": 1.5611,
+      "ci_lo": 0,
+      "ci_hi": 5.2579
+    },
+    {
+      "date": "2024-01-07",
+      "label": "Jan 07",
+      "forecast": 1.6542,
+      "ci_lo": 0,
+      "ci_hi": 5.3542
+    },
+    {
+      "date": "2024-01-08",
+      "label": "Jan 08",
+      "forecast": 1.4196,
+      "ci_lo": 0,
+      "ci_hi": 5.1256
+    },
+    {
+      "date": "2024-01-09",
+      "label": "Jan 09",
+      "forecast": 1.0303,
+      "ci_lo": 0,
+      "ci_hi": 4.7416
+    },
+    {
+      "date": "2024-01-10",
+      "label": "Jan 10",
+      "forecast": 1.5571,
+      "ci_lo": 0,
+      "ci_hi": 5.2697
+    },
+    {
+      "date": "2024-01-11",
+      "label": "Jan 11",
+      "forecast": 1.6324,
+      "ci_lo": 0,
+      "ci_hi": 5.351
+    },
+    {
+      "date": "2024-01-12",
+      "label": "Jan 12",
+      "forecast": 1.6701,
+      "ci_lo": 0,
+      "ci_hi": 5.3894
+    },
+    {
+      "date": "2024-01-13",
+      "label": "Jan 13",
+      "forecast": 1.6975,
+      "ci_lo": 0,
+      "ci_hi": 5.4191
+    },
+    {
+      "date": "2024-01-14",
+      "label": "Jan 14",
+      "forecast": 1.5473,
+      "ci_lo": 0,
+      "ci_hi": 5.2712
+    },
+    {
+      "date": "2024-01-15",
+      "label": "Jan 15",
+      "forecast": 1.4653,
+      "ci_lo": 0,
+      "ci_hi": 5.1894
+    },
+    {
+      "date": "2024-01-16",
+      "label": "Jan 16",
+      "forecast": 1.131,
+      "ci_lo": 0,
+      "ci_hi": 4.8581
+    },
+    {
+      "date": "2024-01-17",
+      "label": "Jan 17",
+      "forecast": 1.5651,
+      "ci_lo": 0,
+      "ci_hi": 5.2924
+    },
+    {
+      "date": "2024-01-18",
+      "label": "Jan 18",
+      "forecast": 1.6709,
+      "ci_lo": 0,
+      "ci_hi": 5.3991
+    },
+    {
+      "date": "2024-01-19",
+      "label": "Jan 19",
+      "forecast": 1.5655,
+      "ci_lo": 0,
+      "ci_hi": 5.2947
+    },
+    {
+      "date": "2024-01-20",
+      "label": "Jan 20",
+      "forecast": 1.4441,
+      "ci_lo": 0,
+      "ci_hi": 5.1733
+    },
+    {
+      "date": "2024-01-21",
+      "label": "Jan 21",
+      "forecast": 1.3188,
+      "ci_lo": 0,
+      "ci_hi": 5.0497
+    },
+    {
+      "date": "2024-01-22",
+      "label": "Jan 22",
+      "forecast": 1.3168,
+      "ci_lo": 0,
+      "ci_hi": 5.0477
+    },
+    {
+      "date": "2024-01-23",
+      "label": "Jan 23",
+      "forecast": 1.0982,
+      "ci_lo": 0,
+      "ci_hi": 4.8294
+    },
+    {
+      "date": "2024-01-24",
+      "label": "Jan 24",
+      "forecast": 1.092,
+      "ci_lo": 0,
+      "ci_hi": 4.8237
+    },
+    {
+      "date": "2024-01-25",
+      "label": "Jan 25",
+      "forecast": 1.2729,
+      "ci_lo": 0,
+      "ci_hi": 5.0047
+    },
+    {
+      "date": "2024-01-26",
+      "label": "Jan 26",
+      "forecast": 1.1296,
+      "ci_lo": 0,
+      "ci_hi": 4.8624
+    },
+    {
+      "date": "2024-01-27",
+      "label": "Jan 27",
+      "forecast": 1.3459,
+      "ci_lo": 0,
+      "ci_hi": 5.0787
+    },
+    {
+      "date": "2024-01-28",
+      "label": "Jan 28",
+      "forecast": 1.4413,
+      "ci_lo": 0,
+      "ci_hi": 5.1743
+    },
+    {
+      "date": "2024-01-29",
+      "label": "Jan 29",
+      "forecast": 1.2645,
+      "ci_lo": 0,
+      "ci_hi": 4.9977
+    },
+    {
+      "date": "2024-01-30",
+      "label": "Jan 30",
+      "forecast": 1.3346,
+      "ci_lo": 0,
+      "ci_hi": 5.0679
+    }
+  ],
+  "ZONE_DATA": [
+    {
+      "zone": "Ward 8 DC",
+      "label": "W8",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.4173,
+          "max_coef": 0.4696,
+          "min_coef": 0.3551,
+          "pct_sig": 100.0,
+          "bg_count": 53
+        },
+        "late_response": {
+          "mean_coef": -0.0239,
+          "max_coef": 0.0818,
+          "min_coef": -0.093,
+          "pct_sig": 0.0,
+          "bg_count": 53
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.245,
+          "max_coef": 0.3234,
+          "min_coef": 0.1436,
+          "pct_sig": 100.0,
+          "bg_count": 53
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.2331,
+          "max_coef": 0.4166,
+          "min_coef": 0.0958,
+          "pct_sig": 100.0,
+          "bg_count": 53
+        },
+        "incomplete_stop": {
+          "mean_coef": 0.0098,
+          "max_coef": 0.0249,
+          "min_coef": -0.0471,
+          "pct_sig": 0.0,
+          "bg_count": 53
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0865,
+          "max_coef": 0.1278,
+          "min_coef": -0.004,
+          "pct_sig": 54.7,
+          "bg_count": 53
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": -0.049,
+          "max_coef": 0.0433,
+          "min_coef": -0.1379,
+          "pct_sig": 9.4,
+          "bg_count": 53
+        }
+      },
+      "ped": 1.0,
+      "speed": 0.951,
+      "late": 0.0,
+      "risk": 1.0
+    },
+    {
+      "zone": "Alexandria VA",
+      "label": "ALX",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.3165,
+          "max_coef": 0.4163,
+          "min_coef": 0.2113,
+          "pct_sig": 100.0,
+          "bg_count": 191
+        },
+        "late_response": {
+          "mean_coef": -0.0099,
+          "max_coef": 0.0204,
+          "min_coef": -0.076,
+          "pct_sig": 0.0,
+          "bg_count": 191
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.129,
+          "max_coef": 0.1816,
+          "min_coef": 0.1103,
+          "pct_sig": 100.0,
+          "bg_count": 191
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.4286,
+          "max_coef": 0.6301,
+          "min_coef": 0.2637,
+          "pct_sig": 100.0,
+          "bg_count": 191
+        },
+        "incomplete_stop": {
+          "mean_coef": 0.045,
+          "max_coef": 0.1276,
+          "min_coef": -0.0482,
+          "pct_sig": 17.8,
+          "bg_count": 191
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0034,
+          "max_coef": 0.0507,
+          "min_coef": -0.0421,
+          "pct_sig": 0.0,
+          "bg_count": 191
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": -0.0297,
+          "max_coef": 0.0635,
+          "min_coef": -0.1825,
+          "pct_sig": 9.4,
+          "bg_count": 191
+        }
+      },
+      "ped": 0.758,
+      "speed": 0.501,
+      "late": 0.0,
+      "risk": 0.936
+    },
+    {
+      "zone": "Ward 6 DC",
+      "label": "W6",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.2966,
+          "max_coef": 0.4186,
+          "min_coef": 0.1257,
+          "pct_sig": 100.0,
+          "bg_count": 41
+        },
+        "late_response": {
+          "mean_coef": 0.0234,
+          "max_coef": 0.1022,
+          "min_coef": -0.042,
+          "pct_sig": 0.0,
+          "bg_count": 41
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.2575,
+          "max_coef": 0.3039,
+          "min_coef": 0.2029,
+          "pct_sig": 100.0,
+          "bg_count": 41
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.1972,
+          "max_coef": 0.2911,
+          "min_coef": 0.0976,
+          "pct_sig": 100.0,
+          "bg_count": 41
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.1161,
+          "max_coef": -0.004,
+          "min_coef": -0.2306,
+          "pct_sig": 65.9,
+          "bg_count": 41
+        },
+        "food_and_drink": {
+          "mean_coef": 0.1258,
+          "max_coef": 0.2367,
+          "min_coef": 0.0707,
+          "pct_sig": 87.8,
+          "bg_count": 41
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": -0.05,
+          "max_coef": 0.0906,
+          "min_coef": -0.119,
+          "pct_sig": 31.7,
+          "bg_count": 41
+        }
+      },
+      "ped": 0.711,
+      "speed": 1.0,
+      "late": 0.13,
+      "risk": 0.914
+    },
+    {
+      "zone": "Arlington VA",
+      "label": "ARL",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.277,
+          "max_coef": 0.4172,
+          "min_coef": 0.2083,
+          "pct_sig": 100.0,
+          "bg_count": 262
+        },
+        "late_response": {
+          "mean_coef": -0.0453,
+          "max_coef": 0.0113,
+          "min_coef": -0.0915,
+          "pct_sig": 0.0,
+          "bg_count": 262
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.1467,
+          "max_coef": 0.2446,
+          "min_coef": 0.0938,
+          "pct_sig": 100.0,
+          "bg_count": 262
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.3644,
+          "max_coef": 0.6091,
+          "min_coef": 0.2532,
+          "pct_sig": 100.0,
+          "bg_count": 262
+        },
+        "incomplete_stop": {
+          "mean_coef": 0.0693,
+          "max_coef": 0.2099,
+          "min_coef": -0.041,
+          "pct_sig": 31.3,
+          "bg_count": 262
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0458,
+          "max_coef": 0.1339,
+          "min_coef": -0.0257,
+          "pct_sig": 7.3,
+          "bg_count": 262
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": -0.0057,
+          "max_coef": 0.0845,
+          "min_coef": -0.1733,
+          "pct_sig": 14.1,
+          "bg_count": 262
+        }
+      },
+      "ped": 0.664,
+      "speed": 0.57,
+      "late": 0.0,
+      "risk": 0.863
+    },
+    {
+      "zone": "Ward 7 DC",
+      "label": "W7",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.4148,
+          "max_coef": 0.452,
+          "min_coef": 0.3557,
+          "pct_sig": 100.0,
+          "bg_count": 65
+        },
+        "late_response": {
+          "mean_coef": 0.0395,
+          "max_coef": 0.099,
+          "min_coef": -0.041,
+          "pct_sig": 0.0,
+          "bg_count": 65
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.1418,
+          "max_coef": 0.2345,
+          "min_coef": 0.094,
+          "pct_sig": 100.0,
+          "bg_count": 65
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.0897,
+          "max_coef": 0.1492,
+          "min_coef": 0.0586,
+          "pct_sig": 33.8,
+          "bg_count": 65
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0542,
+          "max_coef": 0.0116,
+          "min_coef": -0.1237,
+          "pct_sig": 16.9,
+          "bg_count": 65
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0976,
+          "max_coef": 0.1236,
+          "min_coef": 0.055,
+          "pct_sig": 78.5,
+          "bg_count": 65
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": -0.0209,
+          "max_coef": 0.0554,
+          "min_coef": -0.1065,
+          "pct_sig": 3.1,
+          "bg_count": 65
+        }
+      },
+      "ped": 0.994,
+      "speed": 0.551,
+      "late": 0.219,
+      "risk": 0.704
+    },
+    {
+      "zone": "Ward 2 DC",
+      "label": "W2",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.1292,
+          "max_coef": 0.2854,
+          "min_coef": 0.0565,
+          "pct_sig": 84.5,
+          "bg_count": 58
+        },
+        "late_response": {
+          "mean_coef": 0.0222,
+          "max_coef": 0.1147,
+          "min_coef": -0.0496,
+          "pct_sig": 0.0,
+          "bg_count": 58
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.1904,
+          "max_coef": 0.2572,
+          "min_coef": 0.1191,
+          "pct_sig": 100.0,
+          "bg_count": 58
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.3296,
+          "max_coef": 0.37,
+          "min_coef": 0.2711,
+          "pct_sig": 100.0,
+          "bg_count": 58
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0937,
+          "max_coef": 0.0302,
+          "min_coef": -0.1997,
+          "pct_sig": 41.4,
+          "bg_count": 58
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0543,
+          "max_coef": 0.1791,
+          "min_coef": -0.0437,
+          "pct_sig": 10.3,
+          "bg_count": 58
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.0068,
+          "max_coef": 0.0727,
+          "min_coef": -0.0616,
+          "pct_sig": 0.0,
+          "bg_count": 58
+        }
+      },
+      "ped": 0.31,
+      "speed": 0.739,
+      "late": 0.123,
+      "risk": 0.673
+    },
+    {
+      "zone": "Prince George's MD",
+      "label": "PG",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.2945,
+          "max_coef": 0.4296,
+          "min_coef": 0.1446,
+          "pct_sig": 100.0,
+          "bg_count": 409
+        },
+        "late_response": {
+          "mean_coef": -0.0024,
+          "max_coef": 0.0972,
+          "min_coef": -0.0812,
+          "pct_sig": 0.0,
+          "bg_count": 409
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.1219,
+          "max_coef": 0.2528,
+          "min_coef": 0.0207,
+          "pct_sig": 85.3,
+          "bg_count": 409
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.1502,
+          "max_coef": 0.3537,
+          "min_coef": 0.0697,
+          "pct_sig": 89.2,
+          "bg_count": 409
+        },
+        "incomplete_stop": {
+          "mean_coef": 0.0109,
+          "max_coef": 0.0497,
+          "min_coef": -0.051,
+          "pct_sig": 0.0,
+          "bg_count": 409
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0839,
+          "max_coef": 0.1357,
+          "min_coef": -0.0021,
+          "pct_sig": 68.0,
+          "bg_count": 409
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.0874,
+          "max_coef": 0.191,
+          "min_coef": -0.0553,
+          "pct_sig": 50.4,
+          "bg_count": 409
+        }
+      },
+      "ped": 0.706,
+      "speed": 0.473,
+      "late": 0.0,
+      "risk": 0.672
+    },
+    {
+      "zone": "Montgomery MD",
+      "label": "MON",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.2319,
+          "max_coef": 0.3082,
+          "min_coef": 0.158,
+          "pct_sig": 100.0,
+          "bg_count": 313
+        },
+        "late_response": {
+          "mean_coef": 0.0331,
+          "max_coef": 0.0774,
+          "min_coef": -0.0035,
+          "pct_sig": 0.0,
+          "bg_count": 313
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.0288,
+          "max_coef": 0.1255,
+          "min_coef": -0.0071,
+          "pct_sig": 19.2,
+          "bg_count": 313
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.2542,
+          "max_coef": 0.4249,
+          "min_coef": 0.1488,
+          "pct_sig": 97.8,
+          "bg_count": 313
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0276,
+          "max_coef": 0.0277,
+          "min_coef": -0.0829,
+          "pct_sig": 0.0,
+          "bg_count": 313
+        },
+        "food_and_drink": {
+          "mean_coef": -0.0385,
+          "max_coef": 0.0483,
+          "min_coef": -0.0899,
+          "pct_sig": 0.0,
+          "bg_count": 313
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.112,
+          "max_coef": 0.1715,
+          "min_coef": 0.035,
+          "pct_sig": 44.1,
+          "bg_count": 313
+        }
+      },
+      "ped": 0.556,
+      "speed": 0.112,
+      "late": 0.183,
+      "risk": 0.568
+    },
+    {
+      "zone": "Ward 3 DC",
+      "label": "W3",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.187,
+          "max_coef": 0.2311,
+          "min_coef": 0.0851,
+          "pct_sig": 98.1,
+          "bg_count": 52
+        },
+        "late_response": {
+          "mean_coef": 0.0801,
+          "max_coef": 0.1797,
+          "min_coef": -0.0084,
+          "pct_sig": 17.3,
+          "bg_count": 52
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.0731,
+          "max_coef": 0.1452,
+          "min_coef": 0.0247,
+          "pct_sig": 65.4,
+          "bg_count": 52
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.264,
+          "max_coef": 0.2881,
+          "min_coef": 0.2519,
+          "pct_sig": 100.0,
+          "bg_count": 52
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.012,
+          "max_coef": 0.0352,
+          "min_coef": -0.0526,
+          "pct_sig": 0.0,
+          "bg_count": 52
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0087,
+          "max_coef": 0.0727,
+          "min_coef": -0.0536,
+          "pct_sig": 0.0,
+          "bg_count": 52
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.0361,
+          "max_coef": 0.0624,
+          "min_coef": 0.0147,
+          "pct_sig": 0.0,
+          "bg_count": 52
+        }
+      },
+      "ped": 0.448,
+      "speed": 0.284,
+      "late": 0.444,
+      "risk": 0.54
+    },
+    {
+      "zone": "Ward 4 DC",
+      "label": "W4",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.1769,
+          "max_coef": 0.2415,
+          "min_coef": 0.0879,
+          "pct_sig": 98.4,
+          "bg_count": 64
+        },
+        "late_response": {
+          "mean_coef": 0.1024,
+          "max_coef": 0.2099,
+          "min_coef": 0.0182,
+          "pct_sig": 31.2,
+          "bg_count": 64
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.0148,
+          "max_coef": 0.0323,
+          "min_coef": -0.0025,
+          "pct_sig": 0.0,
+          "bg_count": 64
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.2899,
+          "max_coef": 0.3904,
+          "min_coef": 0.217,
+          "pct_sig": 100.0,
+          "bg_count": 64
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0545,
+          "max_coef": -0.0298,
+          "min_coef": -0.0895,
+          "pct_sig": 0.0,
+          "bg_count": 64
+        },
+        "food_and_drink": {
+          "mean_coef": -0.0641,
+          "max_coef": -0.0072,
+          "min_coef": -0.1211,
+          "pct_sig": 9.4,
+          "bg_count": 64
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.0697,
+          "max_coef": 0.1111,
+          "min_coef": 0.0506,
+          "pct_sig": 1.6,
+          "bg_count": 64
+        }
+      },
+      "ped": 0.424,
+      "speed": 0.057,
+      "late": 0.567,
+      "risk": 0.527
+    },
+    {
+      "zone": "Ward 1 DC",
+      "label": "W1",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.0532,
+          "max_coef": 0.1045,
+          "min_coef": 0.0157,
+          "pct_sig": 7.0,
+          "bg_count": 43
+        },
+        "late_response": {
+          "mean_coef": 0.1806,
+          "max_coef": 0.2414,
+          "min_coef": 0.0819,
+          "pct_sig": 72.1,
+          "bg_count": 43
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.0593,
+          "max_coef": 0.137,
+          "min_coef": 0.0288,
+          "pct_sig": 34.9,
+          "bg_count": 43
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.2944,
+          "max_coef": 0.3466,
+          "min_coef": 0.2362,
+          "pct_sig": 100.0,
+          "bg_count": 43
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0786,
+          "max_coef": -0.0334,
+          "min_coef": -0.1684,
+          "pct_sig": 7.0,
+          "bg_count": 43
+        },
+        "food_and_drink": {
+          "mean_coef": -0.0962,
+          "max_coef": -0.007,
+          "min_coef": -0.1534,
+          "pct_sig": 39.5,
+          "bg_count": 43
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.1051,
+          "max_coef": 0.1602,
+          "min_coef": 0.0393,
+          "pct_sig": 37.2,
+          "bg_count": 43
+        }
+      },
+      "ped": 0.127,
+      "speed": 0.23,
+      "late": 1.0,
+      "risk": 0.518
+    },
+    {
+      "zone": "Ward 5 DC",
+      "label": "W5",
+      "behaviors": {
+        "pedestrian_bicyclist": {
+          "mean_coef": 0.2339,
+          "max_coef": 0.3757,
+          "min_coef": 0.1107,
+          "pct_sig": 100.0,
+          "bg_count": 58
+        },
+        "late_response": {
+          "mean_coef": 0.0316,
+          "max_coef": 0.0948,
+          "min_coef": -0.0189,
+          "pct_sig": 0.0,
+          "bg_count": 58
+        },
+        "posted_speed_violation": {
+          "mean_coef": 0.0868,
+          "max_coef": 0.1879,
+          "min_coef": 0.0167,
+          "pct_sig": 63.8,
+          "bg_count": 58
+        },
+        "driver_unbelted_roadway": {
+          "mean_coef": 0.1781,
+          "max_coef": 0.2726,
+          "min_coef": 0.0904,
+          "pct_sig": 100.0,
+          "bg_count": 58
+        },
+        "incomplete_stop": {
+          "mean_coef": -0.0717,
+          "max_coef": 0.001,
+          "min_coef": -0.1928,
+          "pct_sig": 36.2,
+          "bg_count": 58
+        },
+        "food_and_drink": {
+          "mean_coef": 0.0171,
+          "max_coef": 0.1088,
+          "min_coef": -0.0523,
+          "pct_sig": 3.4,
+          "bg_count": 58
+        },
+        "failed_to_keep_an_out": {
+          "mean_coef": 0.0784,
+          "max_coef": 0.1322,
+          "min_coef": -0.0475,
+          "pct_sig": 22.4,
+          "bg_count": 58
+        }
+      },
+      "ped": 0.561,
+      "speed": 0.337,
+      "late": 0.175,
+      "risk": 0.515
+    }
+  ],
+  "BEHAVIORS": [
+    {
+      "name": "Driver Unbelted",
+      "key": "driver_unbelted_roadway",
+      "coeff": 0.4286,
+      "mean_coeff": 0.2561,
+      "pct": 100.0,
+      "color": "#A855F7",
+      "insight": "Highest spatial concentration in Alexandria and southern Arlington. Strong proxy for general safety culture non-compliance."
+    },
+    {
+      "name": "Pedestrian/Cyclist",
+      "key": "pedestrian_bicyclist",
+      "coeff": 0.4173,
+      "mean_coeff": 0.2524,
+      "pct": 100.0,
+      "color": "#C1272D",
+      "insight": "Most widespread risk behavior \u2014 highest GWR coefficient across WMATA. Significant in majority of block groups, especially near transit hubs."
+    },
+    {
+      "name": "Posted Speed Violation",
+      "key": "posted_speed_violation",
+      "coeff": 0.2575,
+      "mean_coeff": 0.1246,
+      "pct": 100.0,
+      "color": "#F59E0B",
+      "insight": "Peak spatial effect at 11th St SE corridor and Wards 2, 6, 8. Also significant in Arlington \u2014 likely arterial speed tolerance."
+    },
+    {
+      "name": "Late Response",
+      "key": "late_response",
+      "coeff": 0.1806,
+      "mean_coeff": 0.036,
+      "pct": 72.1,
+      "color": "#E57C32",
+      "insight": "Concentrated along 16th St NW and school-zone corridors. Indicates delayed hazard recognition in high-pedestrian areas."
+    },
+    {
+      "name": "Food & Drink",
+      "key": "food_and_drink",
+      "coeff": 0.1258,
+      "mean_coeff": 0.027,
+      "pct": 87.8,
+      "color": "#22D3EE",
+      "insight": "Concentrated on Maryland side and the New Carrollton transit corridor. Distraction during longer suburban route segments."
+    },
+    {
+      "name": "Failed to Keep Out",
+      "key": "failed_to_keep_an_out",
+      "coeff": 0.112,
+      "mean_coeff": 0.0284,
+      "pct": 50.4,
+      "color": "#22C55E",
+      "insight": "Wards 1 and 5 in DC and Glenmont MD area show elevated values. Inattention at complex multi-lane intersections."
+    },
+    {
+      "name": "Incomplete Stop",
+      "key": "incomplete_stop",
+      "coeff": 0.0693,
+      "mean_coeff": -0.0311,
+      "pct": 65.9,
+      "color": "#3B82F6",
+      "insight": "Positive effect in west Arlington; negative (protective) in central DC. Suggests different stop-sign enforcement environments."
+    }
+  ],
+  "ALERTS": [
+    {
+      "id": 1,
+      "time": "2023 Q4",
+      "severity": "HIGH",
+      "zone": "Ward 8 DC",
+      "behavior": "Pedestrian/Cyclist (coef=0.417)",
+      "events": 53,
+      "action": "Immediate supervisor dispatch + operator retraining"
+    },
+    {
+      "id": 2,
+      "time": "2023 Q4",
+      "severity": "HIGH",
+      "zone": "Alexandria VA",
+      "behavior": "Driver Unbelted (coef=0.429)",
+      "events": 191,
+      "action": "Immediate supervisor dispatch + operator retraining"
+    },
+    {
+      "id": 3,
+      "time": "2023 Q4",
+      "severity": "HIGH",
+      "zone": "Ward 6 DC",
+      "behavior": "Pedestrian/Cyclist (coef=0.297)",
+      "events": 41,
+      "action": "Immediate supervisor dispatch + operator retraining"
+    },
+    {
+      "id": 4,
+      "time": "2023 Q4",
+      "severity": "HIGH",
+      "zone": "Arlington VA",
+      "behavior": "Driver Unbelted (coef=0.364)",
+      "events": 262,
+      "action": "Immediate supervisor dispatch + operator retraining"
+    },
+    {
+      "id": 5,
+      "time": "2023 Q4",
+      "severity": "MED",
+      "zone": "Ward 7 DC",
+      "behavior": "Pedestrian/Cyclist (coef=0.415)",
+      "events": 65,
+      "action": "Schedule targeted monitoring within 24h"
+    },
+    {
+      "id": 6,
+      "time": "2023 Q4",
+      "severity": "MED",
+      "zone": "Ward 2 DC",
+      "behavior": "Driver Unbelted (coef=0.330)",
+      "events": 58,
+      "action": "Schedule targeted monitoring within 24h"
+    },
+    {
+      "id": 7,
+      "time": "2023 Q4",
+      "severity": "MED",
+      "zone": "Prince George's MD",
+      "behavior": "Pedestrian/Cyclist (coef=0.294)",
+      "events": 409,
+      "action": "Schedule targeted monitoring within 24h"
+    }
+  ]
+}

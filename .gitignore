@@ -1,0 +1,33 @@
+# Only deploy the dashboard files — exclude everything else
+
+# Raw data folders
+Data/
+GeoData/
+NLP/
+PowerBI File/
+Python File/
+
+# Config & local files
+.claude/
+.netlify/
+
+# Research documents
+*.pdf
+PRD_*.md
+PROJECT_OVERVIEW.md
+NLP_Summary*.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+generate_dashboard_data.py
+zone_boundaries.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+.vscode/
