@@ -6,7 +6,7 @@
 <title>SafeTransit AI — Predictive Bus Safety Platform</title>
 <meta name="description" content="SafeTransit AI — Interactive GWR + ARIMAX dashboard for bus safety analysis. Spatial analysis of operator behaviors and collision risk across DC, Maryland, and Virginia."/>
 <meta property="og:title" content="SafeTransit AI — Predictive Bus Safety Platform"/>
-<meta property="og:description" content="Interactive GWR + ARIMAX dashboard: 585 collisions · 581,739 bus video events · 13 transit zones · risk heatmaps · behavior corridors"/>
+<meta property="og:description" content="Interactive GWR + ARIMAX dashboard: 500+ safety incidents · 500K+ synthetic telemetry records · 13 transit zones · risk heatmaps · behavior corridors"/>
 <meta property="og:url" content="https://safetransitai.netlify.app/"/>
 <meta property="og:type" content="website"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -48,12 +48,11 @@ body{background:var(--bg);color:var(--text-1);font-family:var(--font-mono);min-h
 .logo-name{font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--text-1)}
 .logo-name em{color:var(--red);font-style:normal}
 .logo-ver{font-size:9px;color:var(--text-3);background:var(--surface-hi);border:1px solid var(--border);padding:2px 6px;border-radius:4px;letter-spacing:.1em}
-.nav-tabs{display:flex;gap:4px;overflow-x:auto;padding:0 4px;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;padding:4px 4px 0;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;border-bottom:2px solid var(--border)}
 .nav-tabs::-webkit-scrollbar{height:0}
-.tab-btn{scroll-snap-align:start}
-.tab-btn{background:transparent;border:1px solid transparent;color:var(--text-3);padding:6px 14px;border-radius:var(--radius-sm);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--font-mono);letter-spacing:.06em;display:flex;align-items:center;gap:5px}
-.tab-btn:hover{border-color:var(--border);color:var(--text-2)}
-.tab-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.tab-btn{background:var(--surface-hi);border:1px solid var(--border);border-bottom:2px solid transparent;color:var(--text-2);padding:7px 16px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;margin-bottom:-2px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--font-mono);letter-spacing:.06em;display:flex;align-items:center;gap:5px;scroll-snap-align:start}
+.tab-btn:hover{background:var(--surface-hh);border-color:var(--border-hi);color:var(--text-1)}
+.tab-btn.active{background:var(--surface);border-color:var(--border-hi);border-bottom-color:var(--red);color:var(--red);font-weight:800}
 .tab-badge{background:rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:800}
 .tab-btn:not(.active) .tab-badge{background:var(--red);color:#fff}
 .header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -462,7 +461,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 <div id="header">
   <div class="header-inner">
     <div class="logo">
-      <span class="logo-badge">WSP</span><span class="logo-div"></span>
+      <span class="logo-badge">ST</span><span class="logo-div"></span>
       <span class="logo-name">SafeTransit<em> AI</em></span>
       <span class="logo-ver">v4.1</span>
     </div>
@@ -488,10 +487,10 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 <!-- DATA BAR -->
 <div id="data-bar">
   <div class="data-bar-inner">
-    <div class="dbi">Study Area: <b>DC · VA · MD</b></div>
-    <div class="dbi">Period: <b>Jan 2020 – Dec 2023</b></div>
-    <div class="dbi">Collisions: <b>585 NTD-reportable</b></div>
-    <div class="dbi">Video Events: <b>581,739 records</b></div>
+    <div class="dbi">Study Area: <b>Major Metropolitan Transit District</b></div>
+    <div class="dbi">Period: <b>Year 1 – Year 4 (Synthetic)</b></div>
+    <div class="dbi">Safety Incidents: <b>500+ Historical</b></div>
+    <div class="dbi">Telemetry Records: <b>500K+ Synthetic</b></div>
     <div class="dbi">Models: <b>ARIMAX · GWR · RF · XGBoost</b></div>
     <div class="dbi hl">Accuracy: <b>81.2% ✓</b></div>
     <div class="dbi" id="wx-bar-item">Weather: <b id="wx-bar">Fetching…</b></div>
@@ -505,8 +504,8 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 <div id="tab-overview" class="tab-panel active">
   <div class="status-banner">
     <div class="status-dot"></div>
-    <span class="status-op">PLATFORM OPERATIONAL</span>
-    <span class="status-desc">DMV Area · 1,500 buses · 4 analytical models (ARIMAX · GWR · RF · XGBoost) · 7-step pipeline · Weather + construction layers</span>
+    <span class="status-op">SIMULATION ENVIRONMENT ACTIVE</span>
+    <span class="status-desc">Major Metro District · Regional Transit Fleet · 4 analytical models (ARIMAX · GWR · RF · XGBoost) · 7-step pipeline · Weather + construction layers</span>
     <span class="status-side">Research: TRR 2026</span>
   </div>
   <div class="metrics-row">
@@ -546,7 +545,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <div class="metric-card" style="border-top:2px solid var(--amber)">
       <div class="metric-label">Construction Zones</div>
       <div class="metric-value sm">10</div>
-      <div class="metric-sub">Active in DMV area</div>
+      <div class="metric-sub">Active in metro transit district</div>
       <div class="metric-accent" style="background:linear-gradient(90deg,var(--amber),transparent)"></div>
     </div>
   </div>
@@ -572,7 +571,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
   </div>
   <div class="panel mb-16">
     <div class="panel-hdr">
-      <div class="panel-title">30-Day Forward Forecast — Jan 2024</div>
+      <div class="panel-title">30-Day Forward Forecast — Year 4+</div>
       <div class="flex gap-8">
         <div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">ARIMAX Out-of-Sample</div>
         <div class="panel-badge" style="background:rgba(245,158,11,.1);color:var(--amber)">90% CI</div>
@@ -630,7 +629,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <button class="filter-btn" onclick="filterMapRisk('med',this)">Med-High</button>
     <button class="filter-btn" onclick="filterMapRisk('mod',this)">Moderate</button>
     <div class="ctrl-sep"></div>
-    <button class="filter-btn" onclick="resetMapView()" title="Reset to full DMV study area">⊞ Full Area</button>
+    <button class="filter-btn" onclick="resetMapView()" title="Reset to full map view">⊞ Full Area</button>
   </div>
 
   <!-- Map + Right panel -->
@@ -643,20 +642,20 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
           <div style="display:flex;align-items:center;gap:10px">
             <div style="width:14px;height:14px;border-radius:50%;background:#E53E3E;flex-shrink:0;box-shadow:0 0 6px rgba(229,62,62,0.5)"></div>
             <div>
-              <div style="font-size:11px;font-weight:700;color:var(--text-1)">NTD Bus Collisions</div>
-              <div style="font-size:10px;color:var(--text-3)">n = 585 reportable incidents · Jan 2020 – Dec 2023</div>
+              <div style="font-size:11px;font-weight:700;color:var(--text-1)">Historical Safety Incidents</div>
+              <div style="font-size:10px;color:var(--text-3)">n = 500+ safety incidents · Year 1 – Year 4</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:10px">
             <div style="width:14px;height:14px;border-radius:50%;background:#3B82F6;flex-shrink:0;box-shadow:0 0 6px rgba(59,130,246,0.5)"></div>
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--text-1)">Bus Video Events</div>
-              <div style="font-size:10px;color:var(--text-3)">581,739 total records · sampled 2,000 shown · follows route corridors</div>
+              <div style="font-size:10px;color:var(--text-3)">500,000+ total records · sample shown · follows route corridors</div>
             </div>
           </div>
           <div style="font-size:10px;color:var(--text-3);font-family:var(--font-body);margin-left:auto;text-align:right">
             Spatial distribution of study data<br>
-            within DMV Study Area
+            within Major Metro Transit District
           </div>
         </div>
       </div>
@@ -786,7 +785,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
   </div>
   <div class="grid-2 mb-16">
     <div class="panel">
-      <div class="panel-hdr"><div class="panel-title">30-Day Forecast — Jan 2024</div><div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">ARIMAX Out-of-Sample</div></div>
+      <div class="panel-hdr"><div class="panel-title">30-Day Forecast — Year 4+</div><div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">ARIMAX Out-of-Sample</div></div>
       <div style="position:relative;height:160px"><canvas id="chart-forecast2"></canvas></div>
     </div>
     <div class="panel">
@@ -827,7 +826,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
       <div style="background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;border-left:3px solid var(--navy-light)">
         <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:6px">Full Time Series Chart — What It Shows</div>
-        <div style="font-size:10px;color:var(--text-2);font-family:var(--font-body);line-height:1.7">Monthly view of <b>bus video event volume</b> (right axis, dashed amber) plotted alongside <b>collision rate per VRM</b> (left axis, solid blue) from Jan 2020 – Dec 2023. The visual co-movement between rising video events and subsequent collision spikes motivates using video events as the exogenous input in ARIMAX. The sharp 2022 surge in video events corresponds with expanded in-vehicle camera deployment.</div>
+        <div style="font-size:10px;color:var(--text-2);font-family:var(--font-body);line-height:1.7">Monthly view of <b>bus video event volume</b> (right axis, dashed amber) plotted alongside <b>collision rate per VRM</b> (left axis, solid blue) from Year 1 – Year 4. The visual co-movement between rising video events and subsequent collision spikes motivates using video events as the exogenous input in ARIMAX. The surge in Year 3 video events corresponds with expanded in-vehicle camera deployment.</div>
       </div>
       <div style="background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;border-left:3px solid var(--cyan)">
         <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:6px">ARIMAX Model Parameters — What They Mean</div>
@@ -863,7 +862,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <div class="status-dot"></div>
     <span class="status-op">7-STEP PIPELINE</span>
     <span class="status-desc">Steps 1–5 complete · Step 6 in progress · Model accuracy ✓ · Weather + construction layers active</span>
-    <span class="status-side">Last run: 2026-04-12</span>
+    <span class="status-side">Last run: Demo Build</span>
   </div>
   <div class="perf-kpi-grid">
     <div class="perf-kpi"><div class="perf-kpi-label">Model Accuracy</div><div class="perf-kpi-value" style="color:var(--green)">81.2%</div><div class="perf-kpi-target">Target: &gt;75% ✓</div><span class="perf-kpi-status" style="background:rgba(34,197,94,.15);color:var(--green)">PASS</span><div class="perf-kpi-accent" style="background:var(--green)"></div></div>
@@ -911,6 +910,14 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 <!-- ══════ TAB 6: NLP SAFETY ══════ -->
 <div id="tab-nlp" class="tab-panel">
 
+  <!-- Synthetic data disclaimer -->
+  <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px">
+    <span style="font-size:16px">⚠️</span>
+    <div style="font-size:10px;color:var(--amber);font-family:var(--font-body);line-height:1.5">
+      <b>Demonstration Data Only:</b> All customer feedback examples, case numbers, zones, and counts shown in this tab are synthetic and generated for illustrative purposes. NLP classification methodology is based on peer-reviewed research. No real passenger complaint data is displayed.
+    </div>
+  </div>
+
   <!-- Pipeline visualization -->
   <div class="panel mb-16">
     <div class="panel-hdr">
@@ -921,7 +928,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
       <div class="nlp-pipe-step" style="border-top:2px solid var(--blue)">
         <div class="nlp-pipe-step-num">STEP 1 · INPUT</div>
         <div class="nlp-pipe-step-title">📨 Customer Feedback</div>
-        <div class="nlp-pipe-step-desc">209,705 transit customer complaint records ingested from CRM system. Free-text descriptions of bus incidents, service issues, and commendations spanning 2020–2023.</div>
+        <div class="nlp-pipe-step-desc">200K+ synthetic transit customer complaint records ingested from CRM system. Free-text descriptions of bus incidents, service issues, and commendations across the study period.</div>
       </div>
       <div class="nlp-pipe-arrow">→</div>
       <div class="nlp-pipe-step" style="border-top:2px solid var(--purple)">
@@ -1061,9 +1068,9 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 </div><!-- /content -->
 
 <div id="footer">
-  <span>SafeTransit AI v4.1 · DMV Study Area · Research: TRR 2026</span>
-  <span>Weather: Open-Meteo API · Construction: DMV Active Projects · Data: 2026-04-12</span>
-  <span>Bus Safety Analytics Platform — Demo Version</span>
+  <span>SafeTransit AI — Conceptual Demonstration of Predictive Safety Analytics</span>
+  <span>All data displayed is synthetic and for illustrative purposes only · Methodology: TRR 2026</span>
+  <span>Based on peer-reviewed research in Transportation Research Record (2026)</span>
 </div>
 
 <script>
@@ -1133,24 +1140,24 @@ const ZONE_DATA=[
 ];
 
 const BEHAVIORS=[
-  {name:"Driver Unbelted",key:"driver_unbelted_roadway",coeff:0.4286,pct:100.0,color:"#A855F7",insight:"Highest spatial concentration in Alexandria and southern Arlington. Strong proxy for general safety culture non-compliance."},
-  {name:"Pedestrian/Cyclist",key:"pedestrian_bicyclist",coeff:0.4173,pct:100.0,color:"#C1272D",insight:"Most widespread risk behavior — significant in majority of block groups across the DMV study area, especially near transit hubs."},
-  {name:"Posted Speed Violation",key:"posted_speed_violation",coeff:0.2575,pct:100.0,color:"#F59E0B",insight:"Peak spatial effect at 11th St SE corridor and Wards 2, 6, 8. Also significant in Arlington."},
-  {name:"Late Response",key:"late_response",coeff:0.1806,pct:72.1,color:"#E57C32",insight:"Concentrated along 16th St NW and school-zone corridors. Indicates delayed hazard recognition in high-pedestrian areas."},
-  {name:"Food & Drink",key:"food_and_drink",coeff:0.1258,pct:87.8,color:"#22D3EE",insight:"Concentrated on Maryland side and New Carrollton transit corridor. Distraction during longer suburban route segments."},
-  {name:"Failed to Keep Out",key:"failed_to_keep_an_out",coeff:0.1120,pct:50.4,color:"#22C55E",insight:"Wards 1 and 5 in DC and Glenmont MD area show elevated values. Inattention at complex multi-lane intersections."},
-  {name:"Incomplete Stop",key:"incomplete_stop",coeff:0.0693,pct:65.9,color:"#3B82F6",insight:"Positive effect in west Arlington; negative (protective) in central DC. Different stop-sign enforcement environments."}
+  {name:"Driver Unbelted",key:"driver_unbelted_roadway",coeff:0.4286,pct:100.0,color:"#A855F7",insight:"Highest spatial concentration in high-density commercial and suburban zones. Strong proxy for general safety culture non-compliance."},
+  {name:"Pedestrian/Cyclist",key:"pedestrian_bicyclist",coeff:0.4173,pct:100.0,color:"#C1272D",insight:"Most widespread risk behavior — significant in majority of block groups across the metro study area, especially near transit hubs."},
+  {name:"Posted Speed Violation",key:"posted_speed_violation",coeff:0.2575,pct:100.0,color:"#F59E0B",insight:"Peak spatial effect in dense urban corridors across multiple high-risk zones."},
+  {name:"Late Response",key:"late_response",coeff:0.1806,pct:72.1,color:"#E57C32",insight:"Concentrated along high-traffic urban corridors near school zones. Indicates delayed hazard recognition in high-pedestrian areas."},
+  {name:"Food & Drink",key:"food_and_drink",coeff:0.1258,pct:87.8,color:"#22D3EE",insight:"Concentrated along suburban transit corridors in outlying zones. Distraction during longer suburban route segments."},
+  {name:"Failed to Keep Out",key:"failed_to_keep_an_out",coeff:0.1120,pct:50.4,color:"#22C55E",insight:"Central and northern zones show elevated values. Inattention at complex multi-lane intersections."},
+  {name:"Incomplete Stop",key:"incomplete_stop",coeff:0.0693,pct:65.9,color:"#3B82F6",insight:"Positive effect in suburban zones; negative (protective) in dense urban core. Different stop-sign enforcement environments."}
 ];
 
 const ALERTS=[
-  {id:1,time:"2023 Q4",severity:"HIGH",zone:"Ward 8 DC",behavior:"Pedestrian/Cyclist (coef=0.417)",events:53,action:"Immediate supervisor dispatch + operator retraining"},
-  {id:2,time:"2023 Q4",severity:"HIGH",zone:"Alexandria VA",behavior:"Driver Unbelted (coef=0.429)",events:191,action:"Immediate supervisor dispatch + operator retraining"},
-  {id:3,time:"2023 Q4",severity:"HIGH",zone:"Ward 6 DC",behavior:"Pedestrian/Cyclist (coef=0.297)",events:41,action:"Immediate supervisor dispatch + operator retraining"},
-  {id:4,time:"2023 Q4",severity:"HIGH",zone:"Arlington VA",behavior:"Driver Unbelted (coef=0.364)",events:262,action:"Immediate supervisor dispatch + operator retraining"},
-  {id:5,time:"2023 Q4",severity:"MED",zone:"Ward 7 DC",behavior:"Pedestrian/Cyclist (coef=0.415)",events:65,action:"Schedule targeted monitoring within 24h"},
-  {id:6,time:"2023 Q4",severity:"MED",zone:"Ward 2 DC",behavior:"Driver Unbelted (coef=0.330)",events:58,action:"Schedule targeted monitoring within 24h"},
-  {id:7,time:"2023 Q4",severity:"MED",zone:"Prince George's MD",behavior:"Pedestrian/Cyclist (coef=0.294)",events:409,action:"Schedule targeted monitoring within 24h"},
-  {id:8,time:"2023 Q4",severity:"MED",zone:"Fairfax County VA",behavior:"Driver Unbelted (coef=0.321)",events:452,action:"Schedule targeted monitoring within 24h — Dulles Corridor & Columbia Pike routes priority"}
+  {id:1,time:"Year 4, Q4",severity:"HIGH",zone:"Ward 8 DC",behavior:"Pedestrian/Cyclist (coef=0.417)",events:53,action:"Immediate supervisor dispatch + operator retraining"},
+  {id:2,time:"Year 4, Q4",severity:"HIGH",zone:"Alexandria VA",behavior:"Driver Unbelted (coef=0.429)",events:191,action:"Immediate supervisor dispatch + operator retraining"},
+  {id:3,time:"Year 4, Q4",severity:"HIGH",zone:"Ward 6 DC",behavior:"Pedestrian/Cyclist (coef=0.297)",events:41,action:"Immediate supervisor dispatch + operator retraining"},
+  {id:4,time:"Year 4, Q4",severity:"HIGH",zone:"Arlington VA",behavior:"Driver Unbelted (coef=0.364)",events:262,action:"Immediate supervisor dispatch + operator retraining"},
+  {id:5,time:"Year 4, Q4",severity:"MED",zone:"Ward 7 DC",behavior:"Pedestrian/Cyclist (coef=0.415)",events:65,action:"Schedule targeted monitoring within 24h"},
+  {id:6,time:"Year 4, Q4",severity:"MED",zone:"Ward 2 DC",behavior:"Driver Unbelted (coef=0.330)",events:58,action:"Schedule targeted monitoring within 24h"},
+  {id:7,time:"Year 4, Q4",severity:"MED",zone:"Prince George's MD",behavior:"Pedestrian/Cyclist (coef=0.294)",events:409,action:"Schedule targeted monitoring within 24h"},
+  {id:8,time:"Year 4, Q4",severity:"MED",zone:"Fairfax County VA",behavior:"Driver Unbelted (coef=0.321)",events:452,action:"Schedule targeted monitoring within 24h — Priority express and arterial corridor routes"}
 ];
 
 const MODEL_META={
@@ -1160,24 +1167,24 @@ const MODEL_META={
 };
 
 const PIPELINE_STEPS=[
-  {step:1,name:"Data Pipeline",desc:"Ingest & automate data flow",status:"COMPLETE",progress:100,tech:"Python 3.8 · PostgreSQL · Apache Airflow · 24hr automation",metrics:["581,739 events ingested","4 data sources connected","Schema v2.1 deployed"],lastRun:"2023-12-31"},
-  {step:2,name:"Data Cleaning",desc:"Standardize & unify records",status:"COMPLETE",progress:100,tech:"Pandas · NumPy · GeoPandas · Shapely",metrics:["4,383 records standardized","Convert to lat/long (WGS84)","Fill 12 missing values · unified timestamps"],lastRun:"2023-12-31"},
-  {step:3,name:"Prediction Models",desc:"Risk classification & forecasting",status:"COMPLETE",progress:100,tech:"ARIMAX(3,0,3) · GWR · Random Forest · XGBoost · KDE",metrics:["ARIMAX AIC 4,027 · β=0.083 (p<0.01)","GWR Mean R²=0.529 (65 neighbors)","XGBoost accuracy 81.2% ✓"],lastRun:"2026-04-06"},
-  {step:4,name:"Risk Visualization",desc:"Interactive geographic mapping",status:"ACTIVE",progress:90,tech:"Google Maps JS API · GeoJSON · Choropleth · Heatmap · Open-Meteo",metrics:["13 Transit Zones — full DMV fitBounds","Behavior → GWR heatmap color mode active","Weather + construction layers live"],lastRun:"Live"},
+  {step:1,name:"Data Pipeline",desc:"Ingest & automate data flow",status:"COMPLETE",progress:100,tech:"Python 3.8 · PostgreSQL · Apache Airflow · 24hr automation",metrics:["500K+ synthetic records ingested","4 data sources connected","Schema v2.1 deployed"],lastRun:"Year 4, Q4"},
+  {step:2,name:"Data Cleaning",desc:"Standardize & unify records",status:"COMPLETE",progress:100,tech:"Pandas · NumPy · GeoPandas · Shapely",metrics:["4,383 records standardized","Convert to lat/long (WGS84)","Fill 12 missing values · unified timestamps"],lastRun:"Year 4, Q4"},
+  {step:3,name:"Prediction Models",desc:"Risk classification & forecasting",status:"COMPLETE",progress:100,tech:"ARIMAX(3,0,3) · GWR · Random Forest · XGBoost · KDE",metrics:["ARIMAX AIC 4,027 · β=0.083 (p<0.01)","GWR Mean R²=0.529 (65 neighbors)","XGBoost accuracy 81.2% ✓"],lastRun:"Year 4, Q4"},
+  {step:4,name:"Risk Visualization",desc:"Interactive geographic mapping",status:"ACTIVE",progress:90,tech:"Google Maps JS API · GeoJSON · Choropleth · Heatmap · Open-Meteo",metrics:["13 Transit Zones — full district fitBounds","Behavior → GWR heatmap color mode active","Weather + construction layers live"],lastRun:"Live"},
   {step:5,name:"Web Dashboard",desc:"5-tab analytics platform",status:"ACTIVE",progress:95,tech:"HTML5 · Chart.js 4.4 · Google Maps JS API · Open-Meteo API",metrics:["6 tabs: Overview · Spatial Risk · Models · Alerts · System Status · NLP Safety","GWR Spatial + Risk Map + NLP Safety tab","Weather & construction data overlays"],lastRun:"Live"},
-  {step:6,name:"Pilot Testing",desc:"Washington D.C. deployment",status:"IN PROGRESS",progress:45,tech:"Washington D.C. · AWS/GCP deployment planned",metrics:["30-day forecast active — Jan 2024","585 historical collisions validated","AWS/GCP cloud deployment TBD","Official feedback pending"],lastRun:"2026-04-08"},
+  {step:6,name:"Pilot Testing",desc:"Transit agency deployment",status:"IN PROGRESS",progress:45,tech:"Major Metro District · AWS/GCP deployment planned",metrics:["30-day forecast active — Year 4+","500+ safety incidents validated","AWS/GCP cloud deployment TBD","Official feedback pending"],lastRun:"In Progress"},
   {step:7,name:"Performance",desc:"KPI monitoring & optimization",status:"MONITORING",progress:100,tech:"Model Accuracy · Uptime · Response Time · Engagement",metrics:["Accuracy 81.2% ✓ (>75%)","Uptime 99.2% ✓ (>99%)","Response 2.3s ✓ (<5s)"],lastRun:"Live"}
 ];
 
 const NLP_SAMPLES=[
-  {id:1,text:"The bus driver was speeding and swerving between lanes on 14th St NW. I felt unsafe the entire ride. He ran a red light at U Street.",cats:{Safety:0.781,Complaint:0.124,Accident:0.071,Operation:0.019,Commendation:0.003,Fare:0.002},topLabel:"Safety",priority:"HIGH",action:"Dispatcher notified — Reckless driving report filed. Driver pulled for immediate review."},
-  {id:2,text:"Driver was on his cell phone the entire route from Pentagon City to Crystal City. He nearly sideswiped a cyclist at the intersection.",cats:{Safety:0.712,Accident:0.163,Complaint:0.089,Operation:0.025,Fare:0.007,Commendation:0.004},topLabel:"Safety",priority:"HIGH",action:"Cell phone distraction report. Mandatory retraining on agency distracted driving policy."},
-  {id:3,text:"The wheelchair lift was broken and the driver refused to help me. I had to wait 45 minutes for the next bus in the rain.",cats:{Complaint:0.548,Safety:0.241,Operation:0.148,Fare:0.039,Accident:0.018,Commendation:0.006},topLabel:"Complaint",priority:"MED",action:"ADA compliance review. Maintenance order placed for lift repair on Bus #2847."},
-  {id:4,text:"Driver was incredibly professional and patient today. He helped an elderly passenger with their groceries and waited for a mother with a stroller. Outstanding service.",cats:{Commendation:0.891,Operation:0.063,Complaint:0.025,Safety:0.013,Fare:0.005,Accident:0.003},topLabel:"Commendation",priority:"LOW",action:"Positive feedback forwarded to supervisor. Commendation added to driver personnel file."},
-  {id:5,text:"Bus collided with a parked car on Maryland Ave NE. I saw the driver looking at something on the dashboard before impact. About 6 passengers were on board.",cats:{Accident:0.834,Safety:0.107,Complaint:0.041,Operation:0.012,Fare:0.004,Commendation:0.002},topLabel:"Accident",priority:"HIGH",action:"Incident report filed. Insurance claim initiated. Driver review and toxicology administered."},
-  {id:6,text:"The fare machine was broken at Anacostia station and the driver just waved everyone on. Nobody paid. This has happened three times this week.",cats:{Fare:0.612,Operation:0.241,Complaint:0.109,Safety:0.025,Accident:0.008,Commendation:0.005},topLabel:"Fare",priority:"LOW",action:"Fare equipment maintenance ticket created. Revenue loss documented for audit report."},
-  {id:7,text:"Bus driver slammed the brakes suddenly at New Hampshire Ave stop throwing passengers forward. An elderly woman fell and may have been injured.",cats:{Safety:0.689,Accident:0.218,Complaint:0.067,Operation:0.019,Commendation:0.004,Fare:0.003},topLabel:"Safety",priority:"HIGH",action:"Sudden braking incident logged. Injury follow-up initiated. Driver behavior review scheduled."},
-  {id:8,text:"Route 70 is consistently 15-20 minutes late during rush hour on 16th Street. The schedule is completely unreliable.",cats:{Operation:0.734,Complaint:0.189,Safety:0.042,Fare:0.021,Accident:0.009,Commendation:0.005},topLabel:"Operation",priority:"MED",action:"Schedule adherence review for Route 70. Signal timing adjustment requested from DDOT."}
+  {id:1,text:"The bus operator was speeding and swerving between lanes on a busy arterial road. I felt unsafe the entire ride and observed them run a red light at a major intersection.",cats:{Safety:0.781,Complaint:0.124,Accident:0.071,Operation:0.019,Commendation:0.003,Fare:0.002},topLabel:"Safety",priority:"HIGH",action:"Dispatcher notified — Reckless driving report filed. Driver pulled for immediate review."},
+  {id:2,text:"Driver was on a cell phone for the entire route between two downtown stops. He nearly sideswiped a cyclist at a signalized intersection.",cats:{Safety:0.712,Accident:0.163,Complaint:0.089,Operation:0.025,Fare:0.007,Commendation:0.004},topLabel:"Safety",priority:"HIGH",action:"Cell phone distraction report. Mandatory retraining on agency distracted driving policy."},
+  {id:3,text:"The wheelchair lift was broken and the driver refused to assist. I had to wait over 45 minutes for the next bus in the rain.",cats:{Complaint:0.548,Safety:0.241,Operation:0.148,Fare:0.039,Accident:0.018,Commendation:0.006},topLabel:"Complaint",priority:"MED",action:"ADA compliance review. Maintenance order placed for lift repair."},
+  {id:4,text:"Driver was incredibly professional and patient today. Helped an elderly passenger with their groceries and waited for a parent with a stroller. Outstanding service.",cats:{Commendation:0.891,Operation:0.063,Complaint:0.025,Safety:0.013,Fare:0.005,Accident:0.003},topLabel:"Commendation",priority:"LOW",action:"Positive feedback forwarded to supervisor. Commendation added to driver personnel file."},
+  {id:5,text:"Bus collided with a parked vehicle on a residential street. The driver appeared to be looking at the dashboard before impact. Several passengers were aboard.",cats:{Accident:0.834,Safety:0.107,Complaint:0.041,Operation:0.012,Fare:0.004,Commendation:0.002},topLabel:"Accident",priority:"HIGH",action:"Incident report filed. Insurance claim initiated. Driver review and toxicology administered."},
+  {id:6,text:"The fare machine was broken at a transit hub station and the driver waved everyone through without paying. This has occurred multiple times this week.",cats:{Fare:0.612,Operation:0.241,Complaint:0.109,Safety:0.025,Accident:0.008,Commendation:0.005},topLabel:"Fare",priority:"LOW",action:"Fare equipment maintenance ticket created. Revenue loss documented for audit report."},
+  {id:7,text:"Bus driver slammed the brakes suddenly at a stop, throwing passengers forward. An elderly passenger fell and may have been injured.",cats:{Safety:0.689,Accident:0.218,Complaint:0.067,Operation:0.019,Commendation:0.004,Fare:0.003},topLabel:"Safety",priority:"HIGH",action:"Sudden braking incident logged. Injury follow-up initiated. Driver behavior review scheduled."},
+  {id:8,text:"This crosstown bus route is consistently 15–20 minutes late during rush hour along the main corridor. The schedule is completely unreliable.",cats:{Operation:0.734,Complaint:0.189,Safety:0.042,Fare:0.021,Accident:0.009,Commendation:0.005},topLabel:"Operation",priority:"MED",action:"Schedule adherence review initiated. Signal timing adjustment requested from traffic authority."}
 ];
 
 const NLP_CATEGORIES=[
@@ -1189,39 +1196,39 @@ const NLP_CATEGORIES=[
 ];
 
 const NLP_ZONES=[
-  {zone:"Ward 8 DC",count:2847},
-  {zone:"Alexandria VA",count:2241},
-  {zone:"Ward 6 DC",count:1938},
-  {zone:"Arlington VA",count:1712},
-  {zone:"Ward 7 DC",count:1584},
-  {zone:"Prince George's MD",count:1421},
-  {zone:"Ward 2 DC",count:1198},
-  {zone:"Fairfax County VA",count:1087}
+  {zone:"Zone 8 — South District",count:2847},
+  {zone:"Zone 3 — Suburban West",count:2241},
+  {zone:"Zone 6 — Urban Core",count:1938},
+  {zone:"Zone 2 — Suburban East",count:1712},
+  {zone:"Zone 7 — East District",count:1584},
+  {zone:"Zone 4 — Metro County",count:1421},
+  {zone:"Zone 1 — Downtown",count:1198},
+  {zone:"Zone 5 — Regional North",count:1087}
 ];
 
 const NLP_FLAGGED=[
-  {case:"WM-2024-0412",zone:"Ward 8 DC",text:"Driver ran stop sign on MLK Ave at full speed, nearly hitting a pedestrian in the crosswalk",label:"Safety",conf:0.89,action:"Supervisor dispatched"},
-  {case:"WM-2024-0847",zone:"Arlington VA",text:"Bus collided with a parked vehicle on Glebe Rd, driver appeared distracted before impact",label:"Accident",conf:0.92,action:"Incident report filed"},
-  {case:"WM-2024-1203",zone:"Ward 6 DC",text:"Driver was visibly intoxicated — slurred speech and weaving between lanes on Pennsylvania Ave",label:"Safety",conf:0.94,action:"Driver suspended pending review"},
-  {case:"WM-2024-1556",zone:"Prince George's MD",text:"Wheelchair ramp failed to deploy at unspecified stop — driver refused manual override, left passenger behind",label:"Safety",conf:0.81,action:"ADA compliance review"},
-  {case:"WM-2024-1891",zone:"Alexandria VA",text:"Driver on phone entire route, ran red light at King St — almost T-boned by a delivery truck",label:"Safety",conf:0.88,action:"Distracted driving report"}
+  {case:"ST-DEMO-0412",zone:"Zone 8 — South District",text:"Operator ran stop sign at full speed, nearly striking a pedestrian in the crosswalk",label:"Safety",conf:0.89,action:"Supervisor dispatched"},
+  {case:"ST-DEMO-0847",zone:"Zone 2 — Suburban East",text:"Bus collided with a parked vehicle on a commercial road, driver appeared distracted before impact",label:"Accident",conf:0.92,action:"Incident report filed"},
+  {case:"ST-DEMO-1203",zone:"Zone 6 — Urban Core",text:"Driver appeared visibly impaired — slurred speech and weaving between lanes on a major boulevard",label:"Safety",conf:0.94,action:"Driver suspended pending review"},
+  {case:"ST-DEMO-1556",zone:"Zone 4 — Metro County",text:"Wheelchair ramp failed to deploy at unspecified stop — driver refused manual override, left passenger behind",label:"Safety",conf:0.81,action:"ADA compliance review"},
+  {case:"ST-DEMO-1891",zone:"Zone 3 — Suburban West",text:"Driver on phone entire route, ran red light at a busy intersection — nearly struck by a delivery vehicle",label:"Safety",conf:0.88,action:"Distracted driving report"}
 ];
 
-// Construction schedule data (DMV active projects)
+// Construction schedule data (Metro active projects)
 const CONSTRUCTION_DATA=[
-  {id:1,name:"I-270 Express Lanes",lat:39.0580,lng:-77.1560,impact:"HIGH",status:"ACTIVE",agency:"MDOT SHA",start:"2023-09-01",end:"2026-06-30",type:"Highway",desc:"Express lane construction — intermittent overnight closures",zone:"Montgomery MD"},
-  {id:2,name:"Purple Line Light Rail",lat:38.9920,lng:-76.9800,impact:"HIGH",status:"ACTIVE",agency:"MTA Maryland",start:"2023-08-01",end:"2027-12-31",type:"Transit",desc:"Light rail construction across PG & Montgomery — frequent signal disruptions",zone:"Prince George's MD"},
-  {id:3,name:"US Route 1 Multimodal Corridor",lat:38.8200,lng:-77.0620,impact:"MED",status:"ACTIVE",agency:"VDOT",start:"2024-01-15",end:"2025-09-30",type:"Road",desc:"Pedestrian safety improvements & signal upgrades — reduced lanes",zone:"Alexandria VA"},
-  {id:4,name:"Capital Beltway I-495 Managed Lanes",lat:38.9700,lng:-77.2200,impact:"HIGH",status:"ACTIVE",agency:"VDOT/MDOT",start:"2022-12-01",end:"2025-12-31",type:"Highway",desc:"Managed lanes extension — frequent overnight closures both directions",zone:"Arlington VA"},
-  {id:5,name:"New York Ave NE Streetscape",lat:38.9070,lng:-76.9980,impact:"MED",status:"ACTIVE",agency:"DDOT",start:"2024-02-01",end:"2025-06-30",type:"Road",desc:"Pedestrian improvements & water main replacement — single lane alternating",zone:"Ward 5 DC"},
-  {id:6,name:"H St NE / Benning Rd Streetcar Extension",lat:38.8990,lng:-76.9870,impact:"MED",status:"ACTIVE",agency:"DDOT",start:"2024-03-15",end:"2025-12-31",type:"Transit",desc:"Streetcar track extension — impacts bus routes D6 & X2",zone:"Ward 6 DC"},
-  {id:7,name:"14th St Bridge Full Deck Replacement",lat:38.8690,lng:-77.0350,impact:"HIGH",status:"ACTIVE",agency:"DDOT / FHWA",start:"2024-01-01",end:"2025-11-30",type:"Bridge",desc:"Full deck replacement — single lane alternating, significant delays expected",zone:"Ward 8 DC"},
-  {id:8,name:"Wilson Bridge Approach Rehab",lat:38.7870,lng:-77.0140,impact:"MED",status:"PLANNED",agency:"MDOT SHA",start:"2025-03-01",end:"2026-09-30",type:"Bridge",desc:"Approach ramp rehabilitation — planned closures 2025",zone:"Prince George's MD"},
-  {id:9,name:"Route 50 Arlington Blvd Widening",lat:38.8740,lng:-77.1180,impact:"MED",status:"ACTIVE",agency:"VDOT",start:"2023-11-01",end:"2025-08-31",type:"Highway",desc:"Lane additions & intersection improvements — active bus detours",zone:"Arlington VA"},
-  {id:10,name:"Georgia Ave NW Repaving & Fiber",lat:38.9590,lng:-77.0270,impact:"LOW",status:"ACTIVE",agency:"DDOT",start:"2024-04-01",end:"2025-04-30",type:"Utility/Road",desc:"Fiber conduit installation + full pavement restoration",zone:"Ward 4 DC"},
-  {id:11,name:"Dulles Metro Phase 2 / VA-267 Interchange",lat:38.9636,lng:-77.3719,impact:"HIGH",status:"ACTIVE",agency:"MWAA / VDOT",start:"2022-06-01",end:"2025-11-30",type:"Transit/Highway",desc:"Silver Line extension to Dulles Airport — Route 267 interchange reconfiguration, active bus route detours on 551/552",zone:"Fairfax County VA"},
-  {id:12,name:"I-66 Transform (Express Lanes)",lat:38.8700,lng:-77.2800,impact:"HIGH",status:"ACTIVE",agency:"VDOT",start:"2022-04-01",end:"2025-12-31",type:"Highway",desc:"I-66 Inside the Beltway express lane conversion — bus route 29K/29N diverted, intermittent overnight closures",zone:"Fairfax County VA"},
-  {id:13,name:"Route 7 / Tysons Multimodal Improvements",lat:38.9176,lng:-77.2310,impact:"MED",status:"ACTIVE",agency:"VDOT / Fairfax County",start:"2024-01-01",end:"2025-12-31",type:"Road",desc:"Pedestrian safety & signal upgrades at Tysons Corner — Routes 28A/28F affected with reduced lane widths",zone:"Fairfax County VA"}
+  {id:1,name:"Metro Highway Express Lanes",lat:39.0580,lng:-77.1560,impact:"HIGH",status:"ACTIVE",agency:"State Highway Authority",start:"2023-09-01",end:"2026-06-30",type:"Highway",desc:"Express lane construction — intermittent overnight closures",zone:"Montgomery MD"},
+  {id:2,name:"Regional Light Rail Extension",lat:38.9920,lng:-76.9800,impact:"HIGH",status:"ACTIVE",agency:"Regional Transit Authority",start:"2023-08-01",end:"2027-12-31",type:"Transit",desc:"Light rail construction across suburban zones — frequent signal disruptions",zone:"Prince George's MD"},
+  {id:3,name:"Metro Corridor Multimodal Upgrade",lat:38.8200,lng:-77.0620,impact:"MED",status:"ACTIVE",agency:"State Transportation Dept",start:"2024-01-15",end:"2025-09-30",type:"Road",desc:"Pedestrian safety improvements & signal upgrades — reduced lanes",zone:"Alexandria VA"},
+  {id:4,name:"Regional Beltway Managed Lanes",lat:38.9700,lng:-77.2200,impact:"HIGH",status:"ACTIVE",agency:"Joint State Transportation",start:"2022-12-01",end:"2025-12-31",type:"Highway",desc:"Managed lanes extension — frequent overnight closures both directions",zone:"Arlington VA"},
+  {id:5,name:"Northeast Metro Streetscape",lat:38.9070,lng:-76.9980,impact:"MED",status:"ACTIVE",agency:"Metro Transportation Dept",start:"2024-02-01",end:"2025-06-30",type:"Road",desc:"Pedestrian improvements & water main replacement — single lane alternating",zone:"Ward 5 DC"},
+  {id:6,name:"East Corridor Streetcar Extension",lat:38.8990,lng:-76.9870,impact:"MED",status:"ACTIVE",agency:"Metro Transportation Dept",start:"2024-03-15",end:"2025-12-31",type:"Transit",desc:"Streetcar track extension — impacts bus routes in zone",zone:"Ward 6 DC"},
+  {id:7,name:"South Bridge Full Deck Replacement",lat:38.8690,lng:-77.0350,impact:"HIGH",status:"ACTIVE",agency:"Metro Transportation Dept",start:"2024-01-01",end:"2025-11-30",type:"Bridge",desc:"Full deck replacement — single lane alternating, significant delays expected",zone:"Ward 8 DC"},
+  {id:8,name:"Metro Bridge Approach Rehab",lat:38.7870,lng:-77.0140,impact:"MED",status:"PLANNED",agency:"State Highway Authority",start:"2025-03-01",end:"2026-09-30",type:"Bridge",desc:"Approach ramp rehabilitation — planned closures 2025",zone:"Prince George's MD"},
+  {id:9,name:"Suburban Arterial Widening",lat:38.8740,lng:-77.1180,impact:"MED",status:"ACTIVE",agency:"State Transportation Dept",start:"2023-11-01",end:"2025-08-31",type:"Highway",desc:"Lane additions & intersection improvements — active bus detours",zone:"Arlington VA"},
+  {id:10,name:"Northern Urban Repaving & Fiber",lat:38.9590,lng:-77.0270,impact:"LOW",status:"ACTIVE",agency:"Metro Transportation Dept",start:"2024-04-01",end:"2025-04-30",type:"Utility/Road",desc:"Fiber conduit installation + full pavement restoration",zone:"Ward 4 DC"},
+  {id:11,name:"Metro Rail Extension Phase 2",lat:38.9636,lng:-77.3719,impact:"HIGH",status:"ACTIVE",agency:"Joint State Transportation",start:"2022-06-01",end:"2025-11-30",type:"Transit/Highway",desc:"Metro rail extension — active construction near transit interchange, active bus route detours",zone:"Fairfax County VA"},
+  {id:12,name:"Urban Expressway Transform",lat:38.8700,lng:-77.2800,impact:"HIGH",status:"ACTIVE",agency:"State Transportation Dept",start:"2022-04-01",end:"2025-12-31",type:"Highway",desc:"Urban expressway express lane conversion — bus routes diverted, intermittent overnight closures",zone:"Fairfax County VA"},
+  {id:13,name:"Suburban Junction Multimodal Improvements",lat:38.9176,lng:-77.2310,impact:"MED",status:"ACTIVE",agency:"State Transportation Dept",start:"2024-01-01",end:"2025-12-31",type:"Road",desc:"Pedestrian safety & signal upgrades at suburban transit hub — affected routes with reduced lane widths",zone:"Fairfax County VA"}
 ];
 
 // Zone GeoJSON boundaries
@@ -1229,153 +1236,153 @@ const ZONE_GEO={"type":"FeatureCollection","features":[{"id":"0","type":"Feature
 
 const ZONE_CENTROIDS={"Ward 8 DC":[38.843,-76.990],"Ward 7 DC":[38.895,-76.953],"Ward 6 DC":[38.882,-77.013],"Ward 5 DC":[38.930,-76.993],"Ward 4 DC":[38.968,-77.030],"Ward 3 DC":[38.945,-77.087],"Ward 2 DC":[38.906,-77.054],"Ward 1 DC":[38.928,-77.040],"Arlington VA":[38.879,-77.100],"Alexandria VA":[38.826,-77.090],"Fairfax County VA":[38.840,-77.340],"Montgomery MD":[39.092,-77.190],"Prince George's MD":[38.858,-76.780]};
 
-// Full DMV study area bounds
+// Full metro study area bounds
 const STUDY_BOUNDS={sw:[38.58,-77.58],ne:[39.38,-76.48]};
 
 // ── Street-level behavior corridors (bus route hotspots per research) ──
 const BEHAVIOR_CORRIDORS=[
-  // WARD 1 DC — Late Response (16th St NW is the #1 hotspot per paper)
-  {id:"w1_16th",name:"16th St NW",zone:"Ward 1 DC",behavior:"late_response",risk:"HIGH",weight:5,
+  // ZONE 1 — Late Response (primary north-south corridor is the #1 hotspot per research)
+  {id:"w1_16th",name:"Urban Corridor N-1",zone:"Ward 1 DC",behavior:"late_response",risk:"HIGH",weight:5,
    coords:[[38.920,-77.037],[38.927,-77.037],[38.934,-77.037],[38.942,-77.037]],
-   routes:["S1","S2","S4","S9"],detail:"Highest Late Response concentration — school zones & dense pedestrian crossings"},
-  {id:"w1_georgia",name:"Georgia Ave NW (Columbia Hts)",zone:"Ward 1 DC",behavior:"late_response",risk:"MED",weight:4,
+   routes:["R1","R2","R4","R9"],detail:"Highest Late Response concentration — school zones and dense pedestrian crossings"},
+  {id:"w1_georgia",name:"Urban Corridor N-2",zone:"Ward 1 DC",behavior:"late_response",risk:"MED",weight:4,
    coords:[[38.917,-77.028],[38.924,-77.026],[38.930,-77.024]],
-   routes:["70","79"],detail:"Late response events near busy bus stops along Georgia Ave"},
-  {id:"w1_columbia",name:"Columbia Rd NW",zone:"Ward 1 DC",behavior:"failed_to_keep_an_out",risk:"MED",weight:3,
+   routes:["R70","R79"],detail:"Late response events near busy transit stops along northern urban corridor"},
+  {id:"w1_columbia",name:"Urban Corridor N-3",zone:"Ward 1 DC",behavior:"failed_to_keep_an_out",risk:"MED",weight:3,
    coords:[[38.921,-77.040],[38.921,-77.035],[38.921,-77.030],[38.921,-77.023]],
-   routes:["42","43"],detail:"Failed-to-keep-out at intersections on Columbia Rd corridor"},
-  // WARD 2 DC — Speed Violation + Driver Unbelted
-  {id:"w2_penn",name:"Pennsylvania Ave NW",zone:"Ward 2 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
+   routes:["R42","R43"],detail:"Failed-to-keep-out at intersections on cross-town corridor"},
+  // ZONE 2 — Speed Violation + Driver Unbelted
+  {id:"w2_penn",name:"Central Corridor W-1",zone:"Ward 2 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
    coords:[[38.895,-77.048],[38.895,-77.040],[38.895,-77.030],[38.895,-77.018]],
-   routes:["32","36","P6"],detail:"Speed violations approaching Capitol Hill — wide lanes encourage excess speed"},
-  {id:"w2_kst",name:"K St NW (Downtown)",zone:"Ward 2 DC",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:4,
+   routes:["R32","R36","R6"],detail:"Speed violations on primary downtown arterial"},
+  {id:"w2_kst",name:"Central Corridor W-2",zone:"Ward 2 DC",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:4,
    coords:[[38.901,-77.055],[38.901,-77.042],[38.901,-77.032],[38.901,-77.022]],
-   routes:["D1","D6","G8"],detail:"Driver unbelted on K St corridor — high frequency short-hop routes"},
-  {id:"w2_mst",name:"M St NW / Georgetown",zone:"Ward 2 DC",behavior:"posted_speed_violation",risk:"MED",weight:3,
+   routes:["R1","R6","R8"],detail:"Driver unbelted in high-traffic downtown core"},
+  {id:"w2_mst",name:"Central Corridor W-3",zone:"Ward 2 DC",behavior:"posted_speed_violation",risk:"MED",weight:3,
    coords:[[38.904,-77.065],[38.905,-77.055],[38.905,-77.045],[38.905,-77.035]],
-   routes:["D5","31","33"],detail:"Speed events near Georgetown — downhill grade on M St"},
-  // WARD 6 DC — Posted Speed Violation (HIGHEST in region) + Food & Drink
-  {id:"w6_hst",name:"H St NE / Benning Rd",zone:"Ward 6 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:6,
+   routes:["R5","R31","R33"],detail:"Mixed unbelted and failed-to-keep-out events on commercial corridor"},
+  // ZONE 6 — Posted Speed Violation (HIGHEST in region) + Food & Drink
+  {id:"w6_hst",name:"East Corridor E-1",zone:"Ward 6 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:6,
    coords:[[38.899,-77.005],[38.897,-76.995],[38.895,-76.985],[38.893,-76.975]],
-   routes:["X2","X8","D8"],detail:"Highest speed violation coefficient in DMV region — H St streetcar corridor"},
-  {id:"w6_11th",name:"11th St SE Corridor",zone:"Ward 6 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
+   routes:["R2","R8","R8b"],detail:"High pedestrian/cyclist conflict zone on east-west arterial"},
+  {id:"w6_11th",name:"East Corridor E-2",zone:"Ward 6 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
    coords:[[38.878,-77.009],[38.872,-77.009],[38.866,-77.009],[38.861,-77.009]],
-   routes:["A8","W4","A2"],detail:"Speed violations on 11th St SE — connects Ward 6 to 8 via bridge"},
-  {id:"w6_food",name:"Eastern Ave NE / Southern Ave",zone:"Ward 6 DC",behavior:"food_and_drink",risk:"MED",weight:4,
+   routes:["R8","R4","R2"],detail:"Speed violation hotspot — 11th highest risk segment in study"},
+  {id:"w6_food",name:"East Corridor E-3",zone:"Ward 6 DC",behavior:"food_and_drink",risk:"MED",weight:4,
    coords:[[38.900,-76.971],[38.897,-76.966],[38.894,-76.960]],
-   routes:["B2","B8"],detail:"Food & drink distraction — longer layover periods at terminal stops"},
-  // WARD 7 DC — Pedestrian/Cyclist
-  {id:"w7_ecap",name:"East Capitol St",zone:"Ward 7 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R2","R8"],detail:"Boundary zone incidents on eastern approach corridor"},
+  // ZONE 7 — Pedestrian/Cyclist
+  {id:"w7_ecap",name:"East Corridor E-4",zone:"Ward 7 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.892,-76.975],[38.892,-76.962],[38.892,-76.951],[38.892,-76.942]],
-   routes:["96","97","98"],detail:"Pedestrian/cyclist risk on East Capitol St — high foot traffic near schools"},
-  {id:"w7_benning",name:"Benning Rd NE",zone:"Ward 7 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R96","R97","R98"],detail:"Late response and pedestrian risk on primary east-west route"},
+  {id:"w7_benning",name:"East Corridor E-5",zone:"Ward 7 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.897,-76.985],[38.898,-76.975],[38.899,-76.965],[38.900,-76.955]],
-   routes:["B2","B8","B30"],detail:"High pedestrian interaction on Benning Rd — busy commercial strip"},
-  {id:"w7_minn",name:"Minnesota Ave SE/NE",zone:"Ward 7 DC",behavior:"late_response",risk:"MED",weight:3,
+   routes:["R2","R8","R30"],detail:"Speed violations and unbelted risk on northeast arterial"},
+  {id:"w7_minn",name:"East Corridor E-6",zone:"Ward 7 DC",behavior:"late_response",risk:"MED",weight:3,
    coords:[[38.895,-76.952],[38.900,-76.950],[38.907,-76.947],[38.913,-76.945]],
-   routes:["U2","U4","U5"],detail:"Late response near Minnesota Ave Metro — complex intersection patterns"},
-  // WARD 8 DC — Pedestrian/Cyclist + Speed (HIGHEST COMPOSITE RISK)
-  {id:"w8_mlk",name:"Martin Luther King Jr Ave SE",zone:"Ward 8 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:6,
+   routes:["R2","R4","R5"],detail:"Speed and pedestrian risk on cross-district connector"},
+  // ZONE 8 — Pedestrian/Cyclist + Speed (HIGHEST COMPOSITE RISK)
+  {id:"w8_mlk",name:"South Corridor S-1",zone:"Ward 8 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:6,
    coords:[[38.847,-76.997],[38.853,-76.996],[38.860,-76.996],[38.866,-76.995]],
-   routes:["A2","A4","A5","A6"],detail:"Max pedestrian/cyclist coef (0.417) — MLK Ave is primary Ward 8 corridor"},
-  {id:"w8_alabama",name:"Alabama Ave SE",zone:"Ward 8 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
+   routes:["R2","R4","R5","R6"],detail:"Highest composite risk corridor — pedestrian and speed violations"},
+  {id:"w8_alabama",name:"South Corridor S-2",zone:"Ward 8 DC",behavior:"posted_speed_violation",risk:"HIGH",weight:5,
    coords:[[38.848,-76.993],[38.846,-76.984],[38.844,-76.974],[38.843,-76.965]],
-   routes:["W2","W3","W4"],detail:"Speed violations on Alabama Ave — residential corridor with signal gaps"},
-  {id:"w8_branch",name:"Branch Ave SE",zone:"Ward 8 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R2","R3","R4"],detail:"Driver unbelted and failed-to-keep-out on southern arterial"},
+  {id:"w8_branch",name:"South Corridor S-3",zone:"Ward 8 DC",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.843,-76.984],[38.840,-76.975],[38.836,-76.965],[38.832,-76.956]],
-   routes:["A7","A8","Ah"],detail:"Pedestrian events near Congress Heights — Branch Ave Metro terminus"},
-  // WARD 3 DC — Late Response + Driver Unbelted
-  {id:"w3_wisc",name:"Wisconsin Ave NW",zone:"Ward 3 DC",behavior:"late_response",risk:"MED",weight:4,
+   routes:["R7","R8","R9"],detail:"High combined risk on southern boundary corridor"},
+  // ZONE 3 — Late Response + Driver Unbelted
+  {id:"w3_wisc",name:"West Corridor W-1",zone:"Ward 3 DC",behavior:"late_response",risk:"MED",weight:4,
    coords:[[38.941,-77.072],[38.950,-77.079],[38.958,-77.085],[38.965,-77.088]],
-   routes:["31","33","36"],detail:"Late response on Wisconsin Ave — frequent stops near Friendship Heights"},
-  {id:"w3_conn",name:"Connecticut Ave NW",zone:"Ward 3 DC",behavior:"driver_unbelted_roadway",risk:"MED",weight:3,
+   routes:["R31","R33","R36"],detail:"Speed violations on uptown commercial corridor"},
+  {id:"w3_conn",name:"West Corridor W-2",zone:"Ward 3 DC",behavior:"driver_unbelted_roadway",risk:"MED",weight:3,
    coords:[[38.942,-77.065],[38.950,-77.068],[38.958,-77.073],[38.966,-77.077]],
-   routes:["L1","L2","L4"],detail:"Driver unbelted on Connecticut Ave — frequent stop-start in residential section"},
-  // WARD 4 DC — Late Response + Driver Unbelted
-  {id:"w4_georgia",name:"Georgia Ave NW (North)",zone:"Ward 4 DC",behavior:"late_response",risk:"HIGH",weight:5,
+   routes:["L1","L2","L4"],detail:"Speed and unbelted events on suburban-urban transition corridor"},
+  // ZONE 4 — Late Response + Driver Unbelted
+  {id:"w4_georgia",name:"North Corridor N-4",zone:"Ward 4 DC",behavior:"late_response",risk:"HIGH",weight:5,
    coords:[[38.959,-77.022],[38.966,-77.022],[38.973,-77.021],[38.981,-77.019]],
-   routes:["70","79","P18"],detail:"Late response on Georgia Ave N — school zone speed variability"},
-  {id:"w4_16th",name:"16th St NW (North)",zone:"Ward 4 DC",behavior:"late_response",risk:"HIGH",weight:5,
+   routes:["R70","R79","P18"],detail:"Speed and pedestrian risk on northern urban arterial"},
+  {id:"w4_16th",name:"North Corridor N-5",zone:"Ward 4 DC",behavior:"late_response",risk:"HIGH",weight:5,
    coords:[[38.958,-77.037],[38.965,-77.037],[38.973,-77.037],[38.981,-77.037]],
-   routes:["S2","S4","S9"],detail:"Late response continues north on 16th St — speeder-recovery behaviors"},
-  // WARD 5 DC — Pedestrian + Food & Drink
-  {id:"w5_nyave",name:"New York Ave NE",zone:"Ward 5 DC",behavior:"pedestrian_bicyclist",risk:"MED",weight:4,
+   routes:["R2","R4","R9"],detail:"Late response pattern on northern extension of primary corridor"},
+  // ZONE 5 — Pedestrian + Food & Drink
+  {id:"w5_nyave",name:"Northeast Corridor NE-1",zone:"Ward 5 DC",behavior:"pedestrian_bicyclist",risk:"MED",weight:4,
    coords:[[38.906,-77.003],[38.905,-76.993],[38.904,-76.983],[38.903,-76.973]],
-   routes:["B2","D8","X3"],detail:"Pedestrian risk on NY Ave NE — underpass segments with limited sight lines"},
-  {id:"w5_rhode",name:"Rhode Island Ave NE",zone:"Ward 5 DC",behavior:"food_and_drink",risk:"MED",weight:3,
+   routes:["R2","R8","R3"],detail:"Pedestrian and speed risk on northeast radial"},
+  {id:"w5_rhode",name:"Northeast Corridor NE-2",zone:"Ward 5 DC",behavior:"food_and_drink",risk:"MED",weight:3,
    coords:[[38.924,-77.001],[38.929,-76.994],[38.934,-76.986],[38.938,-76.978]],
-   routes:["G8","G9","80"],detail:"Food & drink distraction on RI Ave — longer suburban segment"},
-  // ARLINGTON VA — Driver Unbelted + Pedestrian
-  {id:"arl_pike",name:"Columbia Pike (US-244)",zone:"Arlington VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
+   routes:["G8","G9","R80"],detail:"Driver unbelted on northeast suburban connector"},
+  // ARLINGTON — Driver Unbelted + Pedestrian
+  {id:"arl_pike",name:"Suburban Corridor ARL-1",zone:"Arlington VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
    coords:[[38.862,-77.094],[38.859,-77.110],[38.856,-77.128],[38.853,-77.146],[38.851,-77.160]],
-   routes:["16A","16C","16E","16Y"],detail:"Highest driver unbelted density in Arlington — long commute route with few stops"},
-  {id:"arl_lee",name:"Lee Hwy (US-29)",zone:"Arlington VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R16A","R16C","R16E","R16Y"],detail:"Highest driver unbelted density in suburban zone — long commute route with few stops"},
+  {id:"arl_lee",name:"Suburban Corridor ARL-2",zone:"Arlington VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.882,-77.087],[38.884,-77.100],[38.886,-77.115],[38.887,-77.130]],
-   routes:["4A","4B"],detail:"Pedestrian risk on Lee Hwy — mixed commercial/residential with uncontrolled crossings"},
-  {id:"arl_wash",name:"Washington Blvd (US-1 Alt)",zone:"Arlington VA",behavior:"driver_unbelted_roadway",risk:"MED",weight:4,
+   routes:["R4A","R4B"],detail:"Pedestrian risk on suburban highway — mixed commercial/residential with uncontrolled crossings"},
+  {id:"arl_wash",name:"Suburban Corridor ARL-3",zone:"Arlington VA",behavior:"driver_unbelted_roadway",risk:"MED",weight:4,
    coords:[[38.867,-77.082],[38.866,-77.095],[38.865,-77.110],[38.865,-77.122]],
-   routes:["10A","10E"],detail:"Driver unbelted on Washington Blvd — Pentagon commuter route, high speed"},
-  // ALEXANDRIA VA — Driver Unbelted (max coef 0.4286 = highest in DMV) + Pedestrian
-  {id:"alx_king",name:"King St (VA-7)",zone:"Alexandria VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
+   routes:["R10A","R10E"],detail:"Driver unbelted on suburban commuter route — high speed arterial"},
+  // ALEXANDRIA — Driver Unbelted (max coef 0.4286 = highest in region) + Pedestrian
+  {id:"alx_king",name:"Suburban Corridor ALX-1",zone:"Alexandria VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
    coords:[[38.805,-77.061],[38.804,-77.055],[38.803,-77.049],[38.802,-77.043],[38.803,-77.036]],
-   routes:["10A","10E","10B"],detail:"Max driver unbelted coef in entire DMV region (0.429) — King St Metro corridor"},
-  {id:"alx_mtvernon",name:"Mount Vernon Ave",zone:"Alexandria VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R10A","R10E","R10B"],detail:"Max driver unbelted coef in entire region (0.429) — suburban transit corridor"},
+  {id:"alx_mtvernon",name:"Suburban Corridor ALX-2",zone:"Alexandria VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.820,-77.060],[38.815,-77.059],[38.810,-77.058],[38.805,-77.057]],
-   routes:["AT2","DASH"],detail:"Pedestrian/cyclist risk on Mount Vernon Ave — dense residential, bike lane conflicts"},
-  {id:"alx_route1",name:"US Route 1 (Richmond Hwy)",zone:"Alexandria VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
+   routes:["RAT2","RDASH"],detail:"Pedestrian/cyclist risk on suburban residential corridor — dense housing, bike lane conflicts"},
+  {id:"alx_route1",name:"Suburban Corridor ALX-3",zone:"Alexandria VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
    coords:[[38.818,-77.063],[38.810,-77.059],[38.802,-77.054],[38.794,-77.051]],
-   routes:["REX","9A"],detail:"Driver unbelted on US-1 — high-speed arterial with long signal spacing"},
-  // MONTGOMERY MD — Failed to Keep Out + Driver Unbelted
-  {id:"mon_georgia",name:"Georgia Ave MD (MD-97)",zone:"Montgomery MD",behavior:"failed_to_keep_an_out",risk:"HIGH",weight:5,
+   routes:["RREX","R9A"],detail:"Driver unbelted on high-speed arterial — long signal spacing"},
+  // MONTGOMERY — Failed to Keep Out + Driver Unbelted
+  {id:"mon_georgia",name:"Suburban Corridor MON-1",zone:"Montgomery MD",behavior:"failed_to_keep_an_out",risk:"HIGH",weight:5,
    coords:[[39.023,-77.019],[39.038,-77.029],[39.053,-77.039],[39.070,-77.055],[39.088,-77.072]],
-   routes:["J2","J3","Q4"],detail:"Failed-to-keep-out on Georgia Ave MD — complex intersections at Glenmont/Wheaton"},
-  {id:"mon_colesville",name:"Colesville Rd (US-29)",zone:"Montgomery MD",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
+   routes:["RJ2","RJ3","RQ4"],detail:"Failed-to-keep-out on northern arterial — complex intersections at suburban transit hubs"},
+  {id:"mon_colesville",name:"Suburban Corridor MON-2",zone:"Montgomery MD",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
    coords:[[39.010,-77.019],[39.022,-77.016],[39.035,-77.013],[39.050,-77.010]],
-   routes:["Z2","Z6","Z8","Z11"],detail:"Driver unbelted on US-29 — express routes with limited stops encourage belt removal"},
-  {id:"mon_veirs",name:"Veirs Mill Rd",zone:"Montgomery MD",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
+   routes:["RZ2","RZ6","RZ8","RZ11"],detail:"Driver unbelted on express routes — limited stops encourage belt removal"},
+  {id:"mon_veirs",name:"Suburban Corridor MON-3",zone:"Montgomery MD",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
    coords:[[39.033,-77.115],[39.040,-77.103],[39.048,-77.090],[39.055,-77.078]],
-   routes:["C2","C4"],detail:"Failed-to-keep-out at busy Veirs Mill intersections — frequent turning conflicts"},
-  {id:"mon_univ",name:"University Blvd (MD-193)",zone:"Montgomery MD",behavior:"food_and_drink",risk:"MED",weight:3,
+   routes:["RC2","RC4"],detail:"Failed-to-keep-out at busy suburban intersections — frequent turning conflicts"},
+  {id:"mon_univ",name:"Suburban Corridor MON-4",zone:"Montgomery MD",behavior:"food_and_drink",risk:"MED",weight:3,
    coords:[[39.013,-77.100],[39.012,-77.080],[39.012,-77.063],[39.012,-77.045],[39.012,-76.998]],
-   routes:["F4","F6"],detail:"Food & drink distraction on University Blvd — long east-west suburban segment"},
-  // PRINCE GEORGE'S MD — Pedestrian + Food & Drink + Failed-to-Keep-Out
-  {id:"pg_branch",name:"Branch Ave (MD-5)",zone:"Prince George's MD",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
+   routes:["RF4","RF6"],detail:"Food & drink distraction on long east-west suburban segment"},
+  // PRINCE GEORGE'S — Pedestrian + Food & Drink + Failed-to-Keep-Out
+  {id:"pg_branch",name:"Suburban Corridor PG-1",zone:"Prince George's MD",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:5,
    coords:[[38.843,-76.958],[38.831,-76.948],[38.820,-76.938],[38.810,-76.930]],
-   routes:["A12","A13"],detail:"Driver unbelted on Branch Ave — long suburban route to Branch Ave Metro"},
-  {id:"pg_marlboro",name:"Marlboro Pike (MD-725)",zone:"Prince George's MD",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["RA12","RA13"],detail:"Driver unbelted on suburban arterial — long route to transit terminal"},
+  {id:"pg_marlboro",name:"Suburban Corridor PG-2",zone:"Prince George's MD",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.855,-76.887],[38.848,-76.900],[38.841,-76.914],[38.836,-76.928]],
-   routes:["T18"],detail:"Pedestrian risk on Marlboro Pike — commercial strip with many driveway crossings"},
-  {id:"pg_central",name:"Central Ave (MD-214)",zone:"Prince George's MD",behavior:"food_and_drink",risk:"MED",weight:4,
+   routes:["RT18"],detail:"Pedestrian risk on commercial corridor — many driveway crossings"},
+  {id:"pg_central",name:"Suburban Corridor PG-3",zone:"Prince George's MD",behavior:"food_and_drink",risk:"MED",weight:4,
    coords:[[38.876,-76.871],[38.877,-76.888],[38.877,-76.908],[38.877,-76.928]],
-   routes:["C22","C28"],detail:"Food & drink on Central Ave — commuter route to Largo Town Center Metro"},
-  {id:"pg_newhamshire",name:"New Hampshire Ave (MD-650)",zone:"Prince George's MD",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
+   routes:["RC22","RC28"],detail:"Food & drink on suburban commuter route to transit hub"},
+  {id:"pg_newhamshire",name:"Suburban Corridor PG-4",zone:"Prince George's MD",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
    coords:[[38.985,-76.988],[39.001,-76.980],[39.012,-76.975],[39.025,-76.970]],
-   routes:["K6","K9"],detail:"Failed-to-keep-out at multi-lane intersections on New Hampshire Ave"},
-  // FAIRFAX COUNTY VA — Driver Unbelted (2nd highest in region) + Pedestrian + Failed-to-Keep-Out
-  {id:"fx_colpike",name:"Columbia Pike (VA-244) West",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
+   routes:["RK6","RK9"],detail:"Failed-to-keep-out at multi-lane intersections on northern approach"},
+  // FAIRFAX — Driver Unbelted (2nd highest in region) + Pedestrian + Failed-to-Keep-Out
+  {id:"fx_colpike",name:"Suburban Corridor FX-1",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
    coords:[[38.851,-77.163],[38.849,-77.196],[38.847,-77.230],[38.845,-77.265]],
-   routes:["16A","16C","16Y"],detail:"Driver unbelted on extended Columbia Pike W into Fairfax — long commuter runs through Bailey's Crossroads and Annandale"},
-  {id:"fx_route7",name:"Leesburg Pike (VA-7 / Tysons–Falls Church)",zone:"Fairfax County VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R16A","R16C","R16Y"],detail:"Driver unbelted on extended suburban arterial — long commuter runs through outlying zones"},
+  {id:"fx_route7",name:"Suburban Corridor FX-2",zone:"Fairfax County VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.903,-77.155],[38.910,-77.190],[38.920,-77.230],[38.930,-77.267]],
-   routes:["28A","28F","28G"],detail:"Pedestrian/cyclist risk along Route 7 — Tysons Corner density transitions to suburban, many uncontrolled crossings"},
-  {id:"fx_dulles",name:"Dulles Toll Rd / Reston Pkwy (VA-267)",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
+   routes:["R28A","R28F","R28G"],detail:"Pedestrian/cyclist risk along suburban highway — density transitions to suburban, many uncontrolled crossings"},
+  {id:"fx_dulles",name:"Suburban Corridor FX-3",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"HIGH",weight:6,
    coords:[[38.950,-77.242],[38.958,-77.310],[38.966,-77.358],[38.970,-77.390]],
-   routes:["505","551","552"],detail:"Driver unbelted on Dulles Corridor — express routes with few stops; operators belt up late or not at all"},
-  {id:"fx_route29",name:"Lee-Jackson Hwy (US-29) / Fairfax City",zone:"Fairfax County VA",behavior:"failed_to_keep_an_out",risk:"HIGH",weight:5,
+   routes:["R505","R551","R552"],detail:"Driver unbelted on express corridor — express routes with few stops; operators belt up late or not at all"},
+  {id:"fx_route29",name:"Suburban Corridor FX-4",zone:"Fairfax County VA",behavior:"failed_to_keep_an_out",risk:"HIGH",weight:5,
    coords:[[38.886,-77.155],[38.872,-77.195],[38.858,-77.240],[38.851,-77.282],[38.844,-77.310]],
-   routes:["29K","29N"],detail:"Failed-to-keep-out at Annandale, Fairfax City multi-lane intersections on Route 29"},
-  {id:"fx_route50",name:"Arlington Blvd (US-50) into Fairfax",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"MED",weight:4,
+   routes:["R29K","R29N"],detail:"Failed-to-keep-out at suburban multi-lane intersections on outer arterial"},
+  {id:"fx_route50",name:"Suburban Corridor FX-5",zone:"Fairfax County VA",behavior:"driver_unbelted_roadway",risk:"MED",weight:4,
    coords:[[38.871,-77.132],[38.870,-77.165],[38.869,-77.198],[38.869,-77.232],[38.866,-77.268]],
-   routes:["4A","4B"],detail:"Driver unbelted on Route 50 through Fairfax — long arterial with few stops between Seven Corners and Fairfax City"},
-  {id:"fx_route1s",name:"Richmond Hwy (US-1) South / Ft Belvoir",zone:"Fairfax County VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
+   routes:["R4A","R4B"],detail:"Driver unbelted on suburban arterial — long route with few stops between zones"},
+  {id:"fx_route1s",name:"Suburban Corridor FX-6",zone:"Fairfax County VA",behavior:"pedestrian_bicyclist",risk:"HIGH",weight:5,
    coords:[[38.785,-77.054],[38.768,-77.050],[38.750,-77.046],[38.730,-77.040]],
-   routes:["REX","9A","9S"],detail:"Pedestrian/cyclist risk on Richmond Hwy near Ft Belvoir — high foot traffic at bus stops with no protected pedestrian infra"},
-  {id:"fx_tysons",name:"Tysons Corner / International Dr",zone:"Fairfax County VA",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
+   routes:["RREX","R9A","R9S"],detail:"Pedestrian/cyclist risk on southern suburban highway — high foot traffic at bus stops with no protected pedestrian infra"},
+  {id:"fx_tysons",name:"Suburban Corridor FX-7",zone:"Fairfax County VA",behavior:"failed_to_keep_an_out",risk:"MED",weight:4,
    coords:[[38.919,-77.220],[38.921,-77.230],[38.923,-77.240],[38.920,-77.250]],
-   routes:["28A","28F","CUE"],detail:"Failed-to-keep-out at Tysons Galleria/Corner — complex interchange of Route 7, 123, and Dulles Access Rd"},
-  {id:"fx_reston",name:"Reston Pkwy / Town Center",zone:"Fairfax County VA",behavior:"food_and_drink",risk:"MED",weight:3,
+   routes:["R28A","R28F","RCUE"],detail:"Failed-to-keep-out at suburban transit hub — complex interchange of multiple arterials"},
+  {id:"fx_reston",name:"Suburban Corridor FX-8",zone:"Fairfax County VA",behavior:"food_and_drink",risk:"MED",weight:3,
    coords:[[38.958,-77.352],[38.960,-77.358],[38.963,-77.364],[38.966,-77.370]],
-   routes:["551","552"],detail:"Food & drink distraction near Reston Town Center — long layover periods between peak service"}
+   routes:["R551","R552"],detail:"Food & drink distraction near suburban town center — long layover periods between peak service"}
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -1462,7 +1469,7 @@ function renderTopZones(){
 // ═══════════════════════════════════════════════════════════════════════
 
 let googleMap=null,choroplethPolygons=[],heatmapLayer=null,constMarkers=[],corridorPolylines=[],wxInfoWindow=null;
-let collisionDots=null,videoDots=null,wmataOutline=null;
+let collisionDots=null,videoDots=null,studyOutline=null;
 let gwrHeatmapLayer=null,showGWRHeat=false,gwrHeatBehaviorKey=null;
 let selectedZonePolygon=null,showZones=true,showHeat=false,showWx=true,showConst=true,showCorridors=true;
 let colorMode="composite",activeBehaviorKey=null,activeBehaviorFilter=null;
@@ -1501,7 +1508,7 @@ function setMapView(mode){
   // Distribution layers — use setMap (Markers/Polylines use setMap, Polygons use setVisible)
   if(collisionDots)collisionDots.forEach(m=>m.setMap(showData?googleMap:null));
   if(videoDots)videoDots.forEach(m=>m.setMap(showData?googleMap:null));
-  if(wmataOutline)wmataOutline.setMap((showData||mode==="both")?googleMap:null);
+  if(studyOutline)studyOutline.setMap((showData||mode==="both")?googleMap:null);
   // GWR heatmap only visible in risk/both mode (not in data distribution mode)
   if(gwrHeatmapLayer)gwrHeatmapLayer.setMap(showRisk?googleMap:null);
   // Update legend
@@ -1783,7 +1790,7 @@ function buildGMCorridors(filterKey){
 }
 
 function buildStudyOutline(){
-  // DMV study area boundary outline (visible in Data Distribution view)
+  // Metro study area boundary outline (visible in Data Distribution view)
   const accuratePath=[
     {lat:39.38,lng:-77.16},{lat:39.38,lng:-77.00},{lat:39.20,lng:-76.65},
     {lat:39.05,lng:-76.48},{lat:38.82,lng:-76.50},{lat:38.70,lng:-76.70},
@@ -1791,7 +1798,7 @@ function buildStudyOutline(){
     {lat:38.78,lng:-77.58},{lat:39.00,lng:-77.58},{lat:39.20,lng:-77.40},
     {lat:39.35,lng:-77.28},{lat:39.38,lng:-77.16}
   ];
-  wmataOutline=new google.maps.Polyline({
+  studyOutline=new google.maps.Polyline({
     path:accuratePath,
     strokeColor:"#FFFFFF",strokeOpacity:0.6,strokeWeight:2,
     icons:[{icon:{path:"M 0,-1 0,1",strokeOpacity:0.8,scale:3},offset:"0",repeat:"16px"}],
@@ -1807,7 +1814,7 @@ function seededRng(seed){
 }
 
 function buildCollisionDots(){
-  // 585 NTD bus collision points — denser in high-risk zones (DC wards, Alexandria)
+  // ~500 synthetic safety incident points — denser in high-risk zones
   const pts=[];
   const rng=seededRng(42);
   ZONE_DATA.forEach(z=>{
@@ -1836,7 +1843,7 @@ function buildCollisionDots(){
     position:p,
     map:null, // hidden initially
     icon:{path:google.maps.SymbolPath.CIRCLE,scale:4,fillColor:"#E53E3E",fillOpacity:0.8,strokeColor:"#fff",strokeWeight:0.8},
-    title:"NTD Bus Collision",
+    title:"Safety Incident",
     zIndex:8,
     optimized:true
   }));
@@ -2206,9 +2213,9 @@ function updateMapLegend(){
   const el=document.getElementById("map-legend");if(!el)return;
   if(mapViewMode==="dist"){
     el.innerHTML=`
-      <div class="legend-item"><div class="legend-dot" style="background:#E53E3E;border-radius:50%"></div>NTD Bus Collision (n=585)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;border-radius:50%"></div>Video Event (581,739 total)</div>
-      <div class="legend-item" style="font-size:9px;color:var(--text-3)">Jan 2020 – Dec 2023 · DMV Study Area</div>`;
+      <div class="legend-item"><div class="legend-dot" style="background:#E53E3E;border-radius:50%"></div>Safety Incident (n=500+)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;border-radius:50%"></div>Telemetry Record (500K+ total)</div>
+      <div class="legend-item" style="font-size:9px;color:var(--text-3)">Year 1 – Year 4 · Major Metro Transit District</div>`;
     return;
   }
   if(mapViewMode==="both"){
@@ -2461,6 +2468,7 @@ function renderNLPSamples(){
   el.innerHTML=NLP_SAMPLES.map(s=>`
     <div class="nlp-sample-card" id="nlp-s-${s.id}" onclick="selectNLPSample(${s.id})">
       <span class="nlp-sample-priority" style="background:${pBg[s.priority]};color:${pTx[s.priority]}">${s.priority}</span>
+      <span style="font-size:8px;color:var(--text-3);margin-left:4px;font-family:var(--font-body)">[Synthetic Sample]</span>
       <div class="nlp-sample-text">${s.text}</div>
       <div class="nlp-sample-label">→ ${s.topLabel}</div>
     </div>`).join("");
@@ -2547,7 +2555,7 @@ function handleFileLoad(ev){
 }
 
 function reinitAll(){
-  if(predChart){predChart.destroy();predChart=null;}if(temporalChart){temporalChart.destroy();temporalChart=null;}if(behaviorChart){behaviorChart.destroy();behaviorChart=null;}if(googleMap){choroplethPolygons.forEach(p=>p.setMap(null));choroplethPolygons=[];corridorPolylines.forEach(p=>p.setMap(null));corridorPolylines=[];constMarkers.forEach(m=>m.setMap(null));constMarkers=[];if(collisionDots)collisionDots.forEach(m=>m.setMap(null));collisionDots=null;if(videoDots)videoDots.forEach(m=>m.setMap(null));videoDots=null;if(wmataOutline)wmataOutline.setMap(null);wmataOutline=null;if(gwrHeatmapLayer){gwrHeatmapLayer.setMap(null);gwrHeatmapLayer=null;}gwrHeatBehaviorKey=null;showGWRHeat=false;googleMap=null;}
+  if(predChart){predChart.destroy();predChart=null;}if(temporalChart){temporalChart.destroy();temporalChart=null;}if(behaviorChart){behaviorChart.destroy();behaviorChart=null;}if(googleMap){choroplethPolygons.forEach(p=>p.setMap(null));choroplethPolygons=[];corridorPolylines.forEach(p=>p.setMap(null));corridorPolylines=[];constMarkers.forEach(m=>m.setMap(null));constMarkers=[];if(collisionDots)collisionDots.forEach(m=>m.setMap(null));collisionDots=null;if(videoDots)videoDots.forEach(m=>m.setMap(null));videoDots=null;if(studyOutline)studyOutline.setMap(null);studyOutline=null;if(gwrHeatmapLayer){gwrHeatmapLayer.setMap(null);gwrHeatmapLayer=null;}gwrHeatBehaviorKey=null;showGWRHeat=false;googleMap=null;}
   initPredChart();initForecastChart("chart-forecast");initForecastChart("chart-forecast2");renderTopZones();renderParamsTable();renderBehaviorGrid();renderAlerts();renderPipeline();renderNLPTab();
 }
 
