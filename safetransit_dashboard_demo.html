@@ -401,6 +401,37 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
   #gwr-heatmap-panel{padding:8px 10px}
 }
 
+/* ── DATA METHODOLOGY ACCORDION ── */
+.method-accordion{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px;overflow:hidden}
+.method-accordion summary{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;list-style:none;user-select:none;transition:background .15s}
+.method-accordion summary::-webkit-details-marker{display:none}
+.method-accordion summary:hover{background:var(--surface-hi)}
+.method-accordion-title{font-size:10px;font-weight:800;color:var(--text-2);text-transform:uppercase;letter-spacing:.12em;flex:1}
+.method-accordion-sub{font-size:9px;color:var(--text-3);font-family:var(--font-body);letter-spacing:.04em}
+.method-chevron{font-size:14px;color:var(--text-3);transition:transform .25s ease;display:inline-block;line-height:1}
+.method-accordion[open] .method-chevron{transform:rotate(180deg)}
+.method-accordion-body{padding:0 18px 18px}
+.method-accordion-intro{font-size:10px;color:var(--text-2);line-height:1.65;font-family:var(--font-body);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.method-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.method-card{background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;border-top:3px solid var(--navy-light)}
+.method-card h4{font-size:10px;font-weight:700;color:var(--navy-light);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.method-card p,.method-card li{font-size:10px;color:var(--text-2);line-height:1.65;font-family:var(--font-body)}
+.method-card ul{padding-left:14px;margin:0}
+.method-card li{margin-bottom:4px}
+.method-note{margin-top:12px;padding:8px 12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius-sm);font-size:9px;color:var(--amber);font-family:var(--font-body);line-height:1.5}
+/* ── INTERVENTION TABLE ── */
+.intervention-table{width:100%;border-collapse:collapse;font-size:10px}
+.intervention-table th{background:var(--surface-hi);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-weight:600}
+.intervention-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text-2);font-family:var(--font-body);vertical-align:top;line-height:1.5}
+.intervention-table tr:last-child td{border-bottom:none}
+.intervention-table tr:hover td{background:var(--surface-hi)}
+.int-driver{font-weight:700;font-family:var(--font-mono)}
+.int-high{color:var(--red)}
+.int-med{color:var(--amber)}
+.int-low{color:var(--blue)}
+@media(max-width:768px){.method-cards{grid-template-columns:1fr}.intervention-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media(max-width:480px){.method-accordion summary{padding:12px 14px}.method-accordion-body{padding:0 14px 14px}}
+
 /* ── NLP SAFETY TAB ── */
 .nlp-pipeline{display:flex;align-items:stretch;gap:0;margin-bottom:4px;flex-wrap:wrap}
 .nlp-pipe-step{background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;flex:1;min-width:160px}
@@ -594,6 +625,51 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
       <div class="insight-body">XGBoost achieves 81.2% accuracy (F1=0.81) on risk classification, outperforming Random Forest (78.3%) and exceeding the 75% target threshold.</div>
     </div>
   </div>
+
+  <!-- DATA METHODOLOGY COLLAPSIBLE -->
+  <details class="method-accordion">
+    <summary>
+      <span class="method-accordion-title">Data Methodology</span>
+      <span class="method-accordion-sub">Privacy-preserving, research-backed data infrastructure</span>
+      <span class="method-chevron">▾</span>
+    </summary>
+    <div class="method-accordion-body">
+      <p class="method-accordion-intro">SafeTransit AI is a privacy-preserving, spatial-temporal decision-support system for transit safety risk management. The platform operationalizes peer-reviewed predictive modeling — combining ARIMAX temporal analysis and Geographically Weighted Regression (GWR) — into an agency-ready risk intelligence interface. Synthetic data is generated to preserve the statistical properties of real-world transit telematics, enabling transparent demonstration without exposure of proprietary operational data. The platform is designed for national scalability across the 1,100+ U.S. transit agencies currently operating without predictive safety tools.</p>
+      <div class="method-cards">
+        <div class="method-card">
+          <h4>Data Sources</h4>
+          <p>SafeTransit AI is built on a multi-layer data architecture combining publicly available datasets, peer-reviewed research outputs, and synthetically augmented behavioral variables.</p>
+          <ul>
+            <li><strong>Transit Operations:</strong> General Transit Feed Specification (GTFS) — stop locations, route geometries, service frequency</li>
+            <li><strong>Built Environment:</strong> U.S. EPA Smart Location Database — intersection density, land-use entropy, residential density, transit access</li>
+            <li><strong>Safety Incidents:</strong> NTD-reportable collision records from peer-reviewed research (Guo et al., Transportation Research Record, 2026; DOI: 10.1177/03611981251404351)</li>
+            <li><strong>Operator Behavior:</strong> Synthetic behavioral variables calibrated to distributions reported in published telematics literature</li>
+            <li><strong>Demographics &amp; Land Use:</strong> 2019 U.S. Census Block Group data (1,609 spatial units)</li>
+          </ul>
+        </div>
+        <div class="method-card" style="border-top-color:var(--amber)">
+          <h4>Synthetic Data Generation</h4>
+          <p>To preserve data privacy and protect proprietary operational information, behavioral and incident variables in the live platform are synthetically generated. Synthetic data was produced to preserve the first-order and second-order statistical properties of real-world transit safety datasets, including spatial clustering, temporal seasonality, and behavioral co-occurrence patterns.</p>
+          <ul>
+            <li><strong>Spatial Distribution:</strong> Synthetic event locations generated using Kernel Density Estimation (KDE) seeded from published urban transit risk literature, ensuring realistic clustering around high-density corridors, transit hubs, and complex intersection networks.</li>
+            <li><strong>Temporal Continuity:</strong> Temporal patterns modeled using time-series interpolation with seasonality components consistent with ARIMAX-derived findings — preserving known peaks during commute hours, winter months, and post-COVID ridership recovery periods.</li>
+            <li><strong>Behavioral Variables:</strong> Operator behavior event counts drawn from probability distributions calibrated against frequency ranges reported in the peer-reviewed literature, including the 10 operator behavior categories analyzed in the underlying research study.</li>
+          </ul>
+        </div>
+        <div class="method-card" style="border-top-color:var(--green)">
+          <h4>Validation &amp; Credibility</h4>
+          <p>Synthetic outputs were validated against published benchmarks and known urban safety patterns before deployment in the platform.</p>
+          <ul>
+            <li><strong>Spatial Validation:</strong> Observed clustering patterns consistent with published GWR findings — pedestrian/cyclist risk concentrated in high-density urban corridors; speed violation risk elevated in urban-to-suburban transition zones</li>
+            <li><strong>Temporal Validation:</strong> Simulated collision rate time series exhibit seasonality and lag structures consistent with ARIMAX(3,0,3) model outputs from the peer-reviewed study</li>
+            <li><strong>Behavioral Validation:</strong> Event frequency distributions align with ranges reported in the NTD Safety Advisory literature and Lytx DriveCam operational benchmarks</li>
+            <li><strong>Model Performance (Research Basis):</strong> GWR model R² ≈ 0.529 vs. OLS baseline R² = 0.351 (~51% improvement). ARIMAX video-event coefficient = 0.08 (p &lt; 0.01) across 1,461 daily observations. XGBoost accuracy 81.2% (F1=0.81).</li>
+          </ul>
+          <div class="method-note">⚠ The SafeTransit AI platform uses synthetic data for demonstration purposes. The underlying modeling methodology is validated through peer-reviewed publication (TRR 2026). Platform outputs are intended for decision-support and research communication, not operational deployment without agency-specific calibration.</div>
+        </div>
+      </div>
+    </div>
+  </details>
 </div>
 
 <!-- ══════ TAB 2: SPATIAL RISK (merged map + GWR) ══════ -->
@@ -732,6 +808,60 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- RECOMMENDED INTERVENTIONS PANEL -->
+  <div class="panel mt-12">
+    <div class="panel-hdr">
+      <div class="panel-title">Recommended Interventions by Risk Driver</div>
+      <div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">7 DRIVERS</div>
+    </div>
+    <table class="intervention-table">
+      <thead>
+        <tr>
+          <th style="width:26%">Risk Driver</th>
+          <th style="width:30%">Spatial Pattern</th>
+          <th>Recommended Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="int-driver int-high">Pedestrian &amp; Bicyclist Interaction</span></td>
+          <td>Widespread — highest coefficient (0.47)</td>
+          <td>Targeted pedestrian infrastructure review; signal timing optimization at high-risk crossings</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-high">Posted Speed Violation</span></td>
+          <td>Urban-suburban transition corridors</td>
+          <td>Dynamic speed signage; corridor-specific enforcement campaigns</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-med">Late Response</span></td>
+          <td>High-cognitive-demand corridors (frequent signals, school zones)</td>
+          <td>Route-specific driver coaching; fatigue monitoring protocols</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-low">Incomplete Stop</span></td>
+          <td>Suburban intersection clusters</td>
+          <td>Intersection design review; stop sign visibility improvements</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-med">Food &amp; Drink</span></td>
+          <td>Mixed-use, outlying sub-regions</td>
+          <td>In-cab distraction monitoring; policy enforcement by depot</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-high">Driver Unbelted</span></td>
+          <td>Suburban outer zones</td>
+          <td>Jurisdiction-targeted compliance campaigns; pre-departure checklist</td>
+        </tr>
+        <tr>
+          <td><span class="int-driver int-med">Failed to Keep an Out</span></td>
+          <td>Open corridors, northern zones</td>
+          <td>Defensive driving training; following-distance telematics alerts</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
