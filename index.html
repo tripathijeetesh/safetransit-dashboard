@@ -418,6 +418,20 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 @media(max-width:768px){.perf-stats-row{flex-wrap:wrap}.perf-stat-card{min-width:calc(50% - 5px)}.perf-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
 @media(max-width:480px){.perf-stat-card{min-width:100%}.perf-stat-num{font-size:26px}}
 
+/* ── MODEL ARCHITECTURE DIAGRAM ── */
+.arch-node{cursor:pointer;transition:opacity .12s}
+.arch-node:hover{opacity:.82}
+.arch-node.arch-active rect{stroke-width:2.5!important}
+.arch-detail-panel{background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-top:10px;min-height:58px}
+.arch-detail-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-left:10px;border-radius:3px}
+.arch-detail-title{font-size:11px;font-weight:700;color:var(--text-1);text-transform:uppercase;letter-spacing:.08em}
+.arch-detail-default{display:flex;align-items:center;gap:12px;color:var(--text-3);font-size:10px;font-family:var(--font-body);line-height:1.5}
+.arch-spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.arch-spec-row{display:flex;flex-direction:column;gap:2px}
+.arch-spec-key{font-size:8px;color:var(--text-3);text-transform:uppercase;letter-spacing:.09em;font-weight:700}
+.arch-spec-val{font-size:10px;color:var(--text-2);font-family:var(--font-body);line-height:1.45}
+@media(max-width:600px){.arch-spec-grid{grid-template-columns:1fr}}
+
 /* ── RISK INTERVENTION MATRIX ── */
 .rim-intro{font-size:10px;color:var(--text-2);line-height:1.65;font-family:var(--font-body);margin-top:6px;margin-bottom:14px}
 .rim-table{width:100%;border-collapse:collapse;font-size:10px}
@@ -1050,6 +1064,100 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     </table>
     <!-- Interpretive paragraph -->
     <p class="perf-interp">The GWR model substantially outperforms the global OLS baseline by allowing the relationship between operator behaviors and collision risk to vary across geographic locations — a property called <strong>spatial non-stationarity</strong>. Where OLS produces a single coefficient for the entire network, GWR estimates location-specific coefficients for each of 1,609 Census Block Groups, revealing that the same operator behavior carries significantly different collision risk depending on local road design, land use, and traffic context. The ARIMAX temporal model separately establishes that aggregate bus video event counts are a statistically significant leading indicator of collision rates — with a measurable lag window that creates a real-time opportunity for preventive intervention before incidents occur.</p>
+  </div>
+
+  <!-- MODEL ARCHITECTURE DIAGRAM -->
+  <div class="panel mb-16">
+    <div class="panel-hdr">
+      <div class="panel-title">Model Architecture</div>
+      <div class="panel-badge" style="background:rgba(120,118,200,.12);color:#7876C8">Pipeline Overview</div>
+    </div>
+    <div style="font-size:10px;color:var(--text-3);font-family:var(--font-body);margin-bottom:12px">From raw data to actionable risk intelligence · <em>Click any node to drill into that stage</em></div>
+    <div style="max-width:680px;margin:0 auto">
+      <svg id="arch-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 558" style="width:100%;display:block;font-family:Inter,system-ui,sans-serif">
+        <defs>
+          <marker id="arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#9898AA"/>
+          </marker>
+        </defs>
+        <!-- DATA INGESTION -->
+        <g class="arch-node" onclick="showArchDetail('ingest')" data-id="ingest">
+          <rect x="200" y="24" width="280" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
+          <text x="340" y="51" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Data ingestion</text>
+          <text x="340" y="71" text-anchor="middle" font-size="10.5" fill="#888">Collisions, video events, weather, AADT</text>
+        </g>
+        <!-- Arrow 1 -->
+        <line x1="340" y1="88" x2="340" y2="114" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- FEATURE ENGINEERING -->
+        <g class="arch-node" onclick="showArchDetail('features')" data-id="features">
+          <rect x="182" y="118" width="316" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
+          <text x="340" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Feature engineering</text>
+          <text x="340" y="165" text-anchor="middle" font-size="10.5" fill="#888">Z-score standardization, CBG spatial join</text>
+        </g>
+        <!-- Arrow 2 -->
+        <line x1="340" y1="182" x2="340" y2="205" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- DASHED MODEL LAYER CONTAINER -->
+        <rect x="16" y="208" width="648" height="138" rx="14" fill="rgba(120,118,200,0.04)" stroke="#9898D0" stroke-width="1.5" stroke-dasharray="7,4"/>
+        <text x="30" y="226" font-size="10.5" fill="#9898C8" font-style="italic">Model layer</text>
+        <!-- ARIMAX -->
+        <g class="arch-node" onclick="showArchDetail('arimax')" data-id="arimax">
+          <rect x="32" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="121" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">ARIMAX</text>
+          <text x="121" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Temporal leading</text>
+          <text x="121" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">indicators</text>
+        </g>
+        <!-- GWR -->
+        <g class="arch-node" onclick="showArchDetail('gwr')" data-id="gwr">
+          <rect x="251" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="340" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">GWR model</text>
+          <text x="340" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Spatial risk</text>
+          <text x="340" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">coefficients</text>
+        </g>
+        <!-- RANDOM FOREST -->
+        <g class="arch-node" onclick="showArchDetail('rf')" data-id="rf">
+          <rect x="470" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="559" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">Random Forest</text>
+          <text x="559" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Non-linear risk</text>
+          <text x="559" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">scoring</text>
+        </g>
+        <!-- Converging lines: three stubs → horizontal → single arrow down -->
+        <line x1="121" y1="320" x2="121" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="340" y1="320" x2="340" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="559" y1="320" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="121" y1="352" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="340" y1="352" x2="340" y2="373" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- RISK SCORING ENGINE -->
+        <g class="arch-node" onclick="showArchDetail('scoring')" data-id="scoring">
+          <rect x="182" y="376" width="316" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
+          <text x="340" y="403" text-anchor="middle" font-size="14" font-weight="700" fill="#1E6B4A">Risk scoring engine</text>
+          <text x="340" y="423" text-anchor="middle" font-size="10.5" fill="#2D8060">Composite risk index per CBG</text>
+        </g>
+        <!-- Split: down → horizontal → two downward arrows -->
+        <line x1="340" y1="440" x2="340" y2="458" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="182" y1="458" x2="498" y2="458" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="182" y1="458" x2="182" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <line x1="498" y1="458" x2="498" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- SPATIAL VISUALIZATION -->
+        <g class="arch-node" onclick="showArchDetail('spatial')" data-id="spatial">
+          <rect x="58" y="480" width="248" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
+          <text x="182" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#1E6B4A">Spatial visualization</text>
+          <text x="182" y="526" text-anchor="middle" font-size="10.5" fill="#2D8060">GWR heatmaps, risk maps</text>
+        </g>
+        <!-- ALERTS & MONITORING -->
+        <g class="arch-node" onclick="showArchDetail('alerts')" data-id="alerts">
+          <rect x="374" y="480" width="248" height="64" rx="12" fill="#F5E9D5" stroke="#C99050" stroke-width="1.5"/>
+          <text x="498" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#7A4810">Alerts &amp; monitoring</text>
+          <text x="498" y="526" text-anchor="middle" font-size="10.5" fill="#9A6020">Threshold-based triggers</text>
+        </g>
+      </svg>
+    </div>
+    <!-- Detail panel - updates on node click -->
+    <div id="arch-detail" class="arch-detail-panel">
+      <div class="arch-detail-default">
+        <span style="font-size:24px;line-height:1;opacity:.35">↑</span>
+        <div><strong style="color:var(--text-2)">Click any node above</strong> to drill into that pipeline stage — view technical specifications, data inputs, and each component's role in the composite risk scoring workflow.</div>
+      </div>
+    </div>
   </div>
 
   <div class="grid-3 mb-16">
@@ -1731,6 +1839,90 @@ function toggleTheme(){
 // ═══════════════════════════════════════════════════════════════════════
 // TAB SWITCHING
 // ═══════════════════════════════════════════════════════════════════════
+
+const ARCH_DETAILS={
+  ingest:{title:"Data Ingestion",color:"#C4BEB5",icon:"📥",specs:[
+    ["Sources","4 raw data streams unified into a single PostgreSQL schema"],
+    ["Safety records","NTD-reportable collision data via peer-reviewed study (Guo et al., TRR 2026)"],
+    ["Telemetry","500K+ synthetic bus video event records calibrated to Lytx DriveCam distributions"],
+    ["Weather","Open-Meteo API — real-time precipitation, temperature, wind speed per zone"],
+    ["Traffic","Annual Average Daily Traffic (AADT) from state transportation departments"],
+    ["Output format","CSV + GeoJSON + API JSON → unified timestamped event records"]
+  ]},
+  features:{title:"Feature Engineering",color:"#C4BEB5",icon:"⚙️",specs:[
+    ["Standardization","Z-score normalization across all behavioral and built-environment variables"],
+    ["Spatial join","Point-level events aggregated to 1,609 Census Block Groups (GeoPandas)"],
+    ["Behavior variables","7 operator behavior categories from telematics literature"],
+    ["Built environment","15 features from U.S. EPA Smart Location Database (intersection density, land use entropy, transit access)"],
+    ["Temporal aggregation","Daily rollups for ARIMAX; 4-year panel for GWR and classifiers"],
+    ["Output","Standardized panel dataset ready for all 4 model layers"]
+  ]},
+  arimax:{title:"ARIMAX(3,0,3)",color:"#7876C8",icon:"📈",specs:[
+    ["Full name","AutoRegressive Integrated Moving Average with Exogenous Input"],
+    ["Specification","3 AR lags · 0 differencing · 3 MA lags"],
+    ["Exogenous variable","Daily aggregate bus video event volume"],
+    ["Key finding","β = 0.08 (p < 0.01) — video events are a statistically significant leading indicator of collisions"],
+    ["AIC","4,027.1 (vs. baseline 4,037.8 — improvement of −10.8)"],
+    ["Observations","1,461 daily observations across the 4-year study period"],
+    ["Role","Temporal forecasting — predicts when collision risk will spike, enabling proactive dispatch"]
+  ]},
+  gwr:{title:"Geographically Weighted Regression",color:"#7876C8",icon:"🗺️",specs:[
+    ["Kernel type","Adaptive exponential — 65 optimal neighbors"],
+    ["Spatial units","1,609 U.S. Census Block Groups"],
+    ["Mean local R²","0.529 vs. OLS baseline 0.351 — +51% improvement in spatial predictive accuracy"],
+    ["AICc","3,579.9 vs. OLS baseline 3,950.5"],
+    ["Behaviors modeled","7 operator behavior categories, each with a location-specific coefficient per CBG"],
+    ["Key insight","Same behavior carries different collision risk depending on local road design and land use"],
+    ["Role","Spatial risk targeting — identifies where each behavior most strongly predicts collision"]
+  ]},
+  rf:{title:"Random Forest Classifier",color:"#7876C8",icon:"🌲",specs:[
+    ["Trees","100 decision trees (ensemble)"],
+    ["Accuracy","78.3% — exceeds the 75% target threshold"],
+    ["Precision","0.81 on HIGH-risk zone classification"],
+    ["Recall","0.75"],
+    ["F1 Score","0.78"],
+    ["OOB error","21% out-of-bag cross-validation error"],
+    ["Role","Non-linear risk classification; feature importance ranking; ensemble input to Risk Scoring Engine"]
+  ]},
+  scoring:{title:"Risk Scoring Engine",color:"#5A9F87",icon:"⚡",specs:[
+    ["Output","Composite risk index 0–1 normalized per Census Block Group"],
+    ["Inputs","GWR spatial coefficients + ARIMAX temporal forecast + XGBoost classification (81.2%)"],
+    ["Risk tiers","HIGH ≥ 0.80 · MED-HIGH ≥ 0.65 · MODERATE ≥ 0.50 · LOW < 0.50"],
+    ["Update frequency","Daily — re-scores on each new telemetry ingestion cycle"],
+    ["Coverage","13 transit zones across the major metro district"],
+    ["Role","Central aggregation layer — fuses temporal, spatial, and behavioral signals into a single risk score"]
+  ]},
+  spatial:{title:"Spatial Visualization",color:"#5A9F87",icon:"🗺️",specs:[
+    ["Platform","Google Maps JavaScript API — libraries: visualization, marker"],
+    ["Layers","Risk zones (choropleth) · Street corridors · KDE heatmap · GWR behavior heatmap · Weather · Construction"],
+    ["Interactivity","Click zone for behavior profile · behavior card → GWR heatmap · zoom-responsive radius"],
+    ["Zone data","13 transit zone GeoJSON polygons + 1,609 CBG risk scores"],
+    ["Color scale","Red ≥ 0.80 · Amber ≥ 0.65 · Green ≥ 0.50 · Blue < 0.50"],
+    ["Role","Primary decision interface — spatial targeting for supervisor dispatch and training resources"]
+  ]},
+  alerts:{title:"Alerts & Monitoring",color:"#C99050",icon:"🔔",specs:[
+    ["Trigger logic","Threshold-based: HIGH when composite score ≥ 0.80; MED when ≥ 0.65"],
+    ["Active alerts","7 in current simulation — 4 HIGH (immediate dispatch) · 3 MEDIUM (24h scheduled)"],
+    ["Top zone","Zone 8 — South District (composite risk = 1.000)"],
+    ["Action templates","Supervisor dispatch + operator retraining recommendation per severity tier"],
+    ["Monitoring cadence","Daily re-evaluation on each updated telemetry ingestion"],
+    ["Role","Operational output — translates composite risk scores into actionable supervisor instructions"]
+  ]}
+};
+
+function showArchDetail(id){
+  const d=ARCH_DETAILS[id]; if(!d)return;
+  document.querySelectorAll('#arch-svg .arch-node').forEach(n=>n.classList.remove('arch-active'));
+  const node=document.querySelector('#arch-svg [data-id="'+id+'"]');
+  if(node) node.classList.add('arch-active');
+  const rows=d.specs.map(([k,v])=>`<div class="arch-spec-row"><span class="arch-spec-key">${k}</span><span class="arch-spec-val">${v}</span></div>`).join('');
+  document.getElementById('arch-detail').innerHTML=`
+    <div class="arch-detail-header" style="border-left:3px solid ${d.color}">
+      <span style="font-size:20px;line-height:1">${d.icon}</span>
+      <span class="arch-detail-title">${d.title}</span>
+    </div>
+    <div class="arch-spec-grid">${rows}</div>`;
+}
 
 function toggleRimRow(row){
   const detail=row.nextElementSibling;
