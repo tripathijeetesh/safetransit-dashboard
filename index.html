@@ -418,6 +418,34 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 @media(max-width:768px){.perf-stats-row{flex-wrap:wrap}.perf-stat-card{min-width:calc(50% - 5px)}.perf-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
 @media(max-width:480px){.perf-stat-card{min-width:100%}.perf-stat-num{font-size:26px}}
 
+/* ── RISK INTERVENTION MATRIX ── */
+.rim-intro{font-size:10px;color:var(--text-2);line-height:1.65;font-family:var(--font-body);margin-top:6px;margin-bottom:14px}
+.rim-table{width:100%;border-collapse:collapse;font-size:10px}
+.rim-table th{background:var(--surface-hi);color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+.rim-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text-2);font-family:var(--font-body);vertical-align:top;line-height:1.5}
+.rim-table tr.rim-main-row{cursor:pointer;transition:background .12s}
+.rim-table tr.rim-main-row:hover td{background:var(--surface-hi)}
+.rim-table tr.rim-detail-row td{background:rgba(43,91,168,.05);border-bottom:1px solid var(--border);padding:10px 14px 12px}
+.rim-sev{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:700;white-space:nowrap;font-family:var(--font-mono)}
+.rim-critical{background:rgba(193,39,45,.15);color:var(--red)}
+.rim-high{background:rgba(230,100,20,.15);color:#E66414}
+.rim-moderate{background:rgba(245,158,11,.15);color:var(--amber)}
+.rim-coef{font-weight:800;font-family:var(--font-mono);color:var(--text-1)}
+.rim-coef-note{font-size:8px;color:var(--text-3);vertical-align:super}
+.rim-expand-hint{font-size:8px;color:var(--text-3);margin-top:3px}
+.rim-detail-row{display:none}
+.rim-detail-row.open{display:table-row}
+.rim-detail-inner{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rim-detail-lbl{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.rim-detail-val{font-size:10px;color:var(--text-2);font-family:var(--font-body);line-height:1.5}
+.rim-responsible{font-size:10px;color:var(--navy-light);font-weight:700;font-family:var(--font-mono)}
+.rim-callout-row{display:flex;gap:12px;margin-top:14px}
+.rim-callout{flex:1;background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.rim-callout h4{font-size:10px;font-weight:700;color:var(--text-1);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em}
+.rim-callout p{font-size:10px;color:var(--text-2);line-height:1.65;font-family:var(--font-body)}
+.rim-footer-line{font-size:9px;color:var(--text-3);font-family:var(--font-body);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);line-height:1.5}
+@media(max-width:768px){.rim-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.rim-callout-row{flex-direction:column}.rim-detail-inner{grid-template-columns:1fr}}
+
 /* ── DATA METHODOLOGY ACCORDION ── */
 .method-accordion{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px;overflow:hidden}
 .method-accordion summary{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;list-style:none;user-select:none;transition:background .15s}
@@ -827,58 +855,124 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     </div>
   </div>
 
-  <!-- RECOMMENDED INTERVENTIONS PANEL -->
+  <!-- RISK INTERVENTION MATRIX -->
   <div class="panel mt-12">
     <div class="panel-hdr">
-      <div class="panel-title">Recommended Interventions by Risk Driver</div>
-      <div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">7 DRIVERS</div>
+      <div class="panel-title">Risk Intervention Matrix</div>
+      <div class="panel-badge" style="background:rgba(193,39,45,.12);color:var(--red)">7 RISK DRIVERS</div>
     </div>
-    <table class="intervention-table">
+    <div style="font-size:9px;color:var(--text-3);font-family:var(--font-body);margin-bottom:6px">Translating spatial risk signals into operational decisions &nbsp;·&nbsp; Click any row to expand secondary intervention &amp; responsible party</div>
+    <p class="rim-intro">SafeTransit AI moves beyond risk identification to decision support. Each spatial risk signal identified by the GWR model maps directly to an operational intervention category — enabling transit safety managers to prioritize resources, target training, and design infrastructure improvements based on where each behavior poses the greatest localized threat.</p>
+    <table class="rim-table">
       <thead>
         <tr>
-          <th style="width:26%">Risk Driver</th>
-          <th style="width:30%">Spatial Pattern</th>
-          <th>Recommended Action</th>
+          <th>Severity</th>
+          <th>Risk Driver</th>
+          <th>GWR Coef.</th>
+          <th>Spatial Concentration</th>
+          <th>Primary Intervention</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="int-driver int-high">Pedestrian &amp; Bicyclist Interaction</span></td>
-          <td>Widespread — highest coefficient (0.47)</td>
-          <td>Targeted pedestrian infrastructure review; signal timing optimization at high-risk crossings</td>
+        <!-- Row 1: Pedestrian -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-critical">🔴 Critical</span></td>
+          <td><strong>Pedestrian &amp; Bicyclist Interaction</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.47</span></td>
+          <td>Widespread — largest geographic coverage</td>
+          <td>Pedestrian infrastructure audit at flagged crossings; signal timing optimization</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-high">Posted Speed Violation</span></td>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Operator awareness training for vulnerable road user zones</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Agency Safety + City DOT</div></div>
+        </div></td></tr>
+        <!-- Row 2: Speed -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-critical">🔴 Critical</span></td>
+          <td><strong>Posted Speed Violation</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.32</span></td>
           <td>Urban-suburban transition corridors</td>
-          <td>Dynamic speed signage; corridor-specific enforcement campaigns</td>
+          <td>Dynamic speed signage on transition corridors; corridor-specific enforcement</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-med">Late Response</span></td>
-          <td>High-cognitive-demand corridors (frequent signals, school zones)</td>
-          <td>Route-specific driver coaching; fatigue monitoring protocols</td>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Route-level speed profiling; operator coaching at depot level</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Operations + Enforcement</div></div>
+        </div></td></tr>
+        <!-- Row 3: Late Response -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-high">🟠 High</span></td>
+          <td><strong>Late Response</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.24</span></td>
+          <td>High-cognitive-demand corridors — frequent signals, school zones</td>
+          <td>Route-specific fatigue and attention monitoring protocols</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-low">Incomplete Stop</span></td>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Signal timing review to reduce cognitive overload on flagged corridors</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Safety + Infrastructure</div></div>
+        </div></td></tr>
+        <!-- Row 4: Driver Unbelted -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-high">🟠 High</span></td>
+          <td><strong>Driver Unbelted</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.63<span class="rim-coef-note">*</span></span></td>
+          <td>Suburban outer zones (suburban Virginia peak)</td>
+          <td>Jurisdiction-targeted compliance campaigns; pre-departure seatbelt checklist</td>
+        </tr>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Telematics alert integration for unbelted detection at trip start</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Fleet Operations</div></div>
+        </div></td></tr>
+        <!-- Row 5: Incomplete Stop -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-moderate">🟡 Moderate</span></td>
+          <td><strong>Incomplete Stop</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.21</span></td>
           <td>Suburban intersection clusters</td>
-          <td>Intersection design review; stop sign visibility improvements</td>
+          <td>Intersection design review in flagged suburban zones; stop sign visibility audit</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-med">Food &amp; Drink</span></td>
-          <td>Mixed-use, outlying sub-regions</td>
-          <td>In-cab distraction monitoring; policy enforcement by depot</td>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Context-sensitive policy: distinguish rolling stops in low-speed dense environments</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Safety + Planning</div></div>
+        </div></td></tr>
+        <!-- Row 6: Food & Drink -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-moderate">🟡 Moderate</span></td>
+          <td><strong>Food &amp; Drink</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.24</span></td>
+          <td>Outlying sub-regions; mixed-use suburban corridors</td>
+          <td>In-cab distraction monitoring policy; depot-level enforcement by route geography</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-high">Driver Unbelted</span></td>
-          <td>Suburban outer zones</td>
-          <td>Jurisdiction-targeted compliance campaigns; pre-departure checklist</td>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Operator scheduling review — distraction behaviors may correlate with fatigue windows</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Operations + HR</div></div>
+        </div></td></tr>
+        <!-- Row 7: Failed to Keep an Out -->
+        <tr class="rim-main-row" onclick="toggleRimRow(this)">
+          <td><span class="rim-sev rim-moderate">🟡 Moderate</span></td>
+          <td><strong>Failed to Keep an Out</strong><div class="rim-expand-hint">▶ click for secondary + responsible party</div></td>
+          <td><span class="rim-coef">0.19</span></td>
+          <td>Open corridors — northern zones; suburban transit hubs</td>
+          <td>Defensive driving curriculum update; following-distance telematics alerts</td>
         </tr>
-        <tr>
-          <td><span class="int-driver int-med">Failed to Keep an Out</span></td>
-          <td>Open corridors, northern zones</td>
-          <td>Defensive driving training; following-distance telematics alerts</td>
-        </tr>
+        <tr class="rim-detail-row"><td colspan="5"><div class="rim-detail-inner">
+          <div><div class="rim-detail-lbl">Secondary Intervention</div><div class="rim-detail-val">Environmental audit in constrained depots where behavior reflects infrastructure, not operator risk</div></div>
+          <div><div class="rim-detail-lbl">Responsible Party</div><div class="rim-responsible">Training + Infrastructure</div></div>
+        </div></td></tr>
       </tbody>
     </table>
+    <div style="font-size:8px;color:var(--text-3);font-family:var(--font-body);margin-top:6px;line-height:1.5">* Driver Unbelted coefficient 0.63 represents the suburban Virginia peak value (study area range: 0.08–0.63). Not a single global coefficient.</div>
+    <!-- Two callout boxes -->
+    <div class="rim-callout-row">
+      <div class="rim-callout" style="border-left:3px solid var(--amber)">
+        <h4>📊 On Negative Coefficients</h4>
+        <p>Several behaviors (Incomplete Stop, Food &amp; Drink, Failed to Keep an Out) show negative GWR coefficients in specific zones. This does not mean the behavior is protective — it means the behavior tends to occur in environments where overall collision risk is already low (dense, low-speed, highly signalized). Intervention priority should still be assigned based on the behavior's systemic risk, not local coefficient sign alone.</p>
+      </div>
+      <div class="rim-callout" style="border-left:3px solid var(--navy-light)">
+        <h4>🗺️ How to Use This Matrix</h4>
+        <p>Filter the spatial risk map by behavior category to overlay GWR coefficient heat maps with this intervention framework. High-coefficient zones with no current infrastructure or training intervention represent the highest-priority gaps. Use the scenario simulation tool to estimate impact of targeted reductions in each behavior category.</p>
+      </div>
+    </div>
+    <div class="rim-footer-line">GWR coefficients represent locally significant estimates (p &lt; 0.05) from the adaptive exponential kernel model. Spatial concentration descriptions reflect highest-coefficient zones. Full methodology: <em>Guo, Liang, Tripathi et al., Transportation Research Record, 2026.</em></div>
   </div>
 </div>
 
@@ -1637,6 +1731,15 @@ function toggleTheme(){
 // ═══════════════════════════════════════════════════════════════════════
 // TAB SWITCHING
 // ═══════════════════════════════════════════════════════════════════════
+
+function toggleRimRow(row){
+  const detail=row.nextElementSibling;
+  if(detail&&detail.classList.contains('rim-detail-row')){
+    const isOpen=detail.classList.toggle('open');
+    const hint=row.querySelector('.rim-expand-hint');
+    if(hint)hint.textContent=isOpen?'▼ collapse':'▶ click for secondary + responsible party';
+  }
+}
 
 function switchTab(name){
   document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
