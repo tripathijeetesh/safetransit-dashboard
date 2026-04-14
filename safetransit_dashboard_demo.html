@@ -401,6 +401,23 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
   #gwr-heatmap-panel{padding:8px 10px}
 }
 
+/* ── MODEL PERFORMANCE SECTION ── */
+.perf-stats-row{display:flex;gap:10px;margin-bottom:16px}
+.perf-stat-card{flex:1;background:var(--surface-hi);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 14px;border-top:3px solid var(--navy-light);text-align:center}
+.perf-stat-num{font-size:30px;font-weight:900;color:var(--text-1);font-variant-numeric:tabular-nums;line-height:1;margin-bottom:6px}
+.perf-stat-lbl{font-size:9px;color:var(--text-3);font-family:var(--font-body);line-height:1.45}
+.perf-table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:14px}
+.perf-table th{background:var(--surface-hi);color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);font-weight:600}
+.perf-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text-2);font-family:var(--font-mono)}
+.perf-table td:first-child{color:var(--text-1);font-weight:600;font-family:var(--font-body)}
+.perf-table tr:last-child td{border-bottom:none}
+.perf-bad{color:var(--text-3)}
+.perf-good{color:var(--green);font-weight:700}
+.perf-imp{color:var(--green);font-weight:700}
+.perf-interp{font-size:10px;color:var(--text-2);line-height:1.7;font-family:var(--font-body);padding-top:14px;border-top:1px solid var(--border)}
+@media(max-width:768px){.perf-stats-row{flex-wrap:wrap}.perf-stat-card{min-width:calc(50% - 5px)}.perf-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media(max-width:480px){.perf-stat-card{min-width:100%}.perf-stat-num{font-size:26px}}
+
 /* ── DATA METHODOLOGY ACCORDION ── */
 .method-accordion{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px;overflow:hidden}
 .method-accordion summary{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;list-style:none;user-select:none;transition:background .15s}
@@ -867,6 +884,80 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
 
 <!-- ══════ TAB 3: MODELS ══════ -->
 <div id="tab-models" class="tab-panel">
+
+  <!-- MODEL PERFORMANCE -->
+  <div class="panel mb-16">
+    <div class="panel-hdr">
+      <div class="panel-title">Model Performance</div>
+      <div class="panel-badge" style="background:rgba(34,197,94,.12);color:var(--green)">Validated vs. peer-reviewed benchmarks</div>
+    </div>
+    <!-- Stat callout row -->
+    <div class="perf-stats-row">
+      <div class="perf-stat-card" style="border-top-color:var(--green)">
+        <div class="perf-stat-num" style="color:var(--green)">51%</div>
+        <div class="perf-stat-lbl">Improvement in spatial predictive accuracy over baseline (GWR vs. OLS)</div>
+      </div>
+      <div class="perf-stat-card" style="border-top-color:var(--navy-light)">
+        <div class="perf-stat-num" style="color:var(--navy-light)">0.529</div>
+        <div class="perf-stat-lbl">Mean local R² — GWR spatial collision risk model</div>
+      </div>
+      <div class="perf-stat-card" style="border-top-color:var(--red)">
+        <div class="perf-stat-num" style="color:var(--red)">0.08</div>
+        <div class="perf-stat-lbl">ARIMAX leading indicator coefficient (p &lt; 0.01)</div>
+      </div>
+      <div class="perf-stat-card" style="border-top-color:var(--amber)">
+        <div class="perf-stat-num" style="color:var(--amber)">1,461</div>
+        <div class="perf-stat-lbl">Daily observations used to validate temporal model</div>
+      </div>
+    </div>
+    <!-- Baseline vs. Model comparison table -->
+    <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Baseline vs. Model Performance</div>
+    <table class="perf-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Baseline (OLS)</th>
+          <th>SafeTransit AI (GWR)</th>
+          <th>Improvement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Spatial R²</td>
+          <td>0.351</td>
+          <td class="perf-good">0.529</td>
+          <td class="perf-imp">+51%</td>
+        </tr>
+        <tr>
+          <td>AICc (lower = better)</td>
+          <td>3,950.5</td>
+          <td class="perf-good">3,579.9</td>
+          <td class="perf-imp">−9.4%</td>
+        </tr>
+        <tr>
+          <td>Captures spatial variation</td>
+          <td class="perf-bad">✗</td>
+          <td class="perf-good">✓</td>
+          <td style="color:var(--text-3)">—</td>
+        </tr>
+        <tr>
+          <td>Location-specific coefficients</td>
+          <td class="perf-bad">✗</td>
+          <td class="perf-good">✓</td>
+          <td style="color:var(--text-3)">—</td>
+        </tr>
+        <tr>
+          <td>Temporal leading indicator</td>
+          <td class="perf-bad">✗</td>
+          <td class="perf-good">✓ (ARIMAX)</td>
+          <td style="color:var(--text-3)">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Interpretive paragraph -->
+    <p class="perf-interp">The GWR model substantially outperforms the global OLS baseline by allowing the relationship between operator behaviors and collision risk to vary across geographic locations — a property called <strong>spatial non-stationarity</strong>. Where OLS produces a single coefficient for the entire network, GWR estimates location-specific coefficients for each of 1,609 Census Block Groups, revealing that the same operator behavior carries significantly different collision risk depending on local road design, land use, and traffic context. The ARIMAX temporal model separately establishes that aggregate bus video event counts are a statistically significant leading indicator of collision rates — with a measurable lag window that creates a real-time opportunity for preventive intervention before incidents occur.</p>
+  </div>
+
   <div class="grid-3 mb-16">
     <div class="model-card"><div class="model-accent" style="background:var(--blue)"></div>
       <div class="model-card-top"><div><div class="model-name">ARIMAX(3,0,3)</div><div class="model-type">Time Series · Temporal</div></div><span class="model-badge" style="background:rgba(59,130,246,.15);color:var(--blue)">PRIMARY</span></div>
