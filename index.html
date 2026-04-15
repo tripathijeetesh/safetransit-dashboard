@@ -128,7 +128,7 @@ body{background:var(--bg);color:var(--text-1);font-family:var(--font-mono);min-h
 
 /* ── SPATIAL LAYOUT ── */
 .spatial-layout{display:grid;grid-template-columns:1fr 310px;gap:14px;margin-bottom:14px}
-.map-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;overflow:hidden}
+.map-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;overflow:hidden;position:relative}
 #risk-map{height:540px;border-radius:6px;z-index:0}
 .spatial-right{display:flex;flex-direction:column;gap:10px;max-height:610px;overflow-y:auto}
 
@@ -751,6 +751,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <button class="toggle-btn" id="tog-heat" onclick="toggleMapLayer('heat')">Heat Map</button>
     <button class="toggle-btn" id="tog-gwrheat" onclick="toggleMapLayer('gwrheat')" title="GWR coefficient heatmap — select a behavior card first">🔥 GWR Heatmap</button>
     <button class="toggle-btn on" id="tog-wx" onclick="toggleMapLayer('weather')">⛅ Weather</button>
+    <button class="toggle-btn" id="tog-aadt" onclick="toggleMapLayer('aadt')" title="Annual Average Daily Traffic — MWCOG/VDOT/MD SHA · Circle size &amp; color = traffic volume">🚗 AADT</button>
     <button class="toggle-btn on" id="tog-const" onclick="toggleMapLayer('construction')">🚧 Construction</button>
     <div class="ctrl-sep"></div>
     <span class="ctrl-label">VIEW:</span>
@@ -771,6 +772,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
   <div class="spatial-layout">
     <div class="map-card">
       <div id="risk-map"></div>
+      <div id="wx-ctrl" class="wx-ctrl-box" style="position:absolute;top:24px;right:24px;z-index:400"><div class="wx-loading">⏳ Fetching weather…</div></div>
       <!-- Data distribution info panel — shown only in dist/both view -->
       <div id="dist-info-panel" style="display:none;margin-top:10px;padding:10px 14px;background:var(--surface-hi);border-radius:var(--radius-sm);border:1px solid var(--border)">
         <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
@@ -1809,6 +1811,70 @@ const BEHAVIOR_CORRIDORS=[
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
+// AADT DATA  (Annual Average Daily Traffic — calibrated to MWCOG/VDOT/SHA counts)
+// Source: MWCOG Regional Traffic Counts Annual (gis.mwcog.org) · VDOT 2024 · MD SHA
+// Values represent synthetic proxies calibrated to published regional traffic ranges.
+// ═══════════════════════════════════════════════════════════════════════
+const AADT_DATA={
+  // Ward 1 DC — Urban arterials
+  w1_16th:48000,   // 16th St NW
+  w1_georgia:38000, // Georgia Ave NW (central)
+  w1_columbia:28000, // Columbia Rd NW
+  // Ward 2 DC — Downtown core (highest volumes in region)
+  w2_penn:92000,   // Pennsylvania Ave NW
+  w2_kst:78000,    // K St NW
+  w2_mst:55000,    // M St NW
+  // Ward 6 DC — East
+  w6_hst:58000,    // H St NE / Benning Rd
+  w6_11th:42000,   // 11th St SE bridge corridor
+  w6_food:25000,   // Eastern boundary
+  // Ward 7 DC
+  w7_ecap:46000,   // East Capitol St NE
+  w7_benning:52000, // Benning Rd NE
+  w7_minn:22000,   // Minnesota Ave NE
+  // Ward 8 DC — Southern
+  w8_mlk:38000,    // MLK Jr Ave SE
+  w8_alabama:32000, // Alabama Ave SE
+  w8_branch:27000,  // Branch Ave SE
+  // Ward 3 DC — Northwest
+  w3_wisc:35000,   // Wisconsin Ave NW
+  w3_conn:44000,   // Connecticut Ave NW
+  // Ward 4 DC — Upper Northwest
+  w4_georgia:33000, // Georgia Ave NW (north)
+  w4_16th:30000,   // 16th St NW (north)
+  // Ward 5 DC — Northeast
+  w5_nyave:62000,  // New York Ave NE (major freight/commuter)
+  w5_rhode:30000,  // Rhode Island Ave NE
+  // Arlington VA
+  arl_pike:65000,  // Columbia Pike (one of busiest in NoVA)
+  arl_lee:36000,   // Lee Hwy / Route 29
+  arl_wash:28000,  // Washington Blvd
+  // Alexandria VA
+  alx_king:38000,  // King St / Route 7
+  alx_mtvernon:22000, // Mt Vernon Ave
+  alx_route1:48000, // US-1 (Richmond Hwy)
+  // Montgomery County MD
+  mon_georgia:32000, // Georgia Ave (MD 97)
+  mon_colesville:28000, // Colesville Rd / US-29
+  mon_veirs:18000,  // Veirs Mill Rd
+  mon_univ:22000,  // University Blvd
+  // Prince George's County MD
+  pg_branch:26000,  // Branch Ave (MD 5)
+  pg_marlboro:18000, // Marlboro Pike
+  pg_central:15000,  // Central PG suburban
+  pg_newhamshire:21000, // New Hampshire Ave
+  // Fairfax County VA
+  fx_colpike:52000, // Columbia Pike (Fairfax ext.)
+  fx_route7:58000,  // Leesburg Pike / Route 7
+  fx_dulles:72000,  // Dulles Toll Rd corridor
+  fx_route29:34000, // Lee Hwy / Route 29
+  fx_route50:42000, // Arlington Blvd / Route 50
+  fx_route1s:45000, // US-1 South
+  fx_tysons:48000,  // Tyco Rd / Tysons area
+  fx_reston:28000   // Reston Pkwy
+};
+
+// ═══════════════════════════════════════════════════════════════════════
 // UTILITY
 // ═══════════════════════════════════════════════════════════════════════
 
@@ -1985,6 +2051,7 @@ function renderTopZones(){
 // ═══════════════════════════════════════════════════════════════════════
 
 let googleMap=null,choroplethPolygons=[],heatmapLayer=null,constMarkers=[],corridorPolylines=[],wxInfoWindow=null;
+let aadtMarkers=[],showAadt=false;
 let collisionDots=null,videoDots=null,studyOutline=null;
 let gwrHeatmapLayer=null,showGWRHeat=false,gwrHeatBehaviorKey=null;
 let selectedZonePolygon=null,showZones=true,showHeat=false,showWx=true,showConst=true,showCorridors=true;
@@ -2021,6 +2088,7 @@ function setMapView(mode){
   choroplethPolygons.forEach(p=>p.setOptions({visible:showRisk&&showZones}));
   corridorPolylines.forEach(p=>p.setMap((showRisk&&showCorridors)?googleMap:null));
   constMarkers.forEach(m=>m.setMap((showRisk&&showConst)?googleMap:null));
+  aadtMarkers.forEach(m=>m.setMap((showRisk&&showAadt)?googleMap:null));
   // Distribution layers — use setMap (Markers/Polylines use setMap, Polygons use setVisible)
   if(collisionDots)collisionDots.forEach(m=>m.setMap(showData?googleMap:null));
   if(videoDots)videoDots.forEach(m=>m.setMap(showData?googleMap:null));
@@ -2118,6 +2186,7 @@ function _createGoogleMap(mapDiv){
   buildGMChoropleth();
   buildGMCorridors();
   buildGMConstruction();
+  buildAADTLayer();
   buildStudyOutline();
   buildCollisionDots();
   buildVideoDots();
@@ -2255,6 +2324,31 @@ function buildGMConstruction(){
     const infoWin=new google.maps.InfoWindow({content:`<div class="lf-tip"><b>🚧 ${c.name}</b><br><span style="background:${s.color}33;color:${s.color};padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700">${c.impact} IMPACT · ${c.status}</span><br>${c.agency} · ${c.type}<br>Start: ${c.start} → End: ${c.end}<br><span style="font-size:10px;color:#8B96B0">${c.desc}</span></div>`});
     marker.addListener("click",()=>infoWin.open(googleMap,marker));
     constMarkers.push(marker);
+  });
+}
+
+// ── AADT Traffic Volume Layer ─────────────────────────────────────────
+
+function buildAADTLayer(){
+  if(!googleMap)return;
+  aadtMarkers.forEach(m=>m.setMap(null));
+  aadtMarkers=[];
+  BEHAVIOR_CORRIDORS.forEach(corr=>{
+    const aadt=AADT_DATA[corr.id]||20000;
+    const mid=corr.coords[Math.floor(corr.coords.length/2)];
+    // Color scale: red >70k, amber 40-70k, blue 20-40k, green <20k
+    const color=aadt>=70000?"#C1272D":aadt>=40000?"#F59E0B":aadt>=20000?"#3B82F6":"#22C55E";
+    const radius=Math.max(7,Math.min(20,aadt/4000));
+    const marker=new google.maps.Marker({
+      position:{lat:mid[0],lng:mid[1]},
+      map:showAadt?googleMap:null,
+      title:`${corr.name} — AADT: ${aadt.toLocaleString()} VPD`,
+      icon:{path:google.maps.SymbolPath.CIRCLE,scale:radius,fillColor:color,fillOpacity:0.70,strokeColor:"#fff",strokeWeight:1.5},
+      zIndex:8
+    });
+    const infoWin=new google.maps.InfoWindow({content:`<div class="lf-tip"><b style="color:${color}">🚗 ${corr.name}</b><br><span style="color:var(--text-3);font-size:9px">${corr.zone}</span><br><span style="font-size:11px;font-weight:700;color:${color}">${aadt.toLocaleString()} VPD</span> <span style="font-size:9px;color:var(--text-3)">Annual Avg Daily Traffic</span><br><span style="background:${color}22;color:${color};padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700">${aadt>=70000?"VERY HIGH":aadt>=40000?"HIGH":aadt>=20000?"MODERATE":"LOW"} VOLUME</span><br><span style="font-size:9px;color:var(--text-3);margin-top:4px;display:block">Source: MWCOG Regional Traffic Counts / VDOT / MD SHA (calibrated synthetic)</span></div>`});
+    marker.addListener("click",()=>infoWin.open(googleMap,marker));
+    aadtMarkers.push(marker);
   });
 }
 
@@ -2574,14 +2668,7 @@ function updateGWRLegend(behaviorKey,minCoef,maxCoef,zones){
 // ── Weather ──────────────────────────────────────────────────────────
 
 function addWeatherControl(){
-  if(!googleMap)return;
-  // Create custom control div
-  const wxDiv=document.createElement("div");
-  wxDiv.id="wx-ctrl";
-  wxDiv.className="wx-ctrl-box";
-  wxDiv.style.cssText="margin:10px;cursor:default;";
-  wxDiv.innerHTML='<div class="wx-loading">⏳ Fetching weather…</div>';
-  googleMap.controls[google.maps.ControlPosition.TOP_RIGHT].push(wxDiv);
+  // wx-ctrl is now in static HTML (absolutely positioned over the map) — no dynamic creation needed
 }
 
 async function fetchWeather(){
@@ -2676,6 +2763,11 @@ function toggleMapLayer(which){
     document.getElementById("tog-wx").classList.toggle("on",showWx);
     const wxCtrl=document.getElementById("wx-ctrl");
     if(wxCtrl)wxCtrl.style.display=showWx?"block":"none";
+  } else if(which==="aadt"){
+    showAadt=!showAadt;
+    document.getElementById("tog-aadt").classList.toggle("on",showAadt);
+    if(showAadt&&aadtMarkers.length===0)buildAADTLayer();
+    else aadtMarkers.forEach(m=>m.setMap(showAadt?googleMap:null));
   } else if(which==="construction"){
     showConst=!showConst;
     document.getElementById("tog-const").classList.toggle("on",showConst);
