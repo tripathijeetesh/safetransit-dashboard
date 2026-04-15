@@ -154,6 +154,12 @@ html.light #risk-map{background:#E8EEF8}
 .map-dist-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;padding:8px 12px;background:var(--surface-hi);border-radius:var(--radius-sm)}
 .dist-legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-2)}
 
+/* ── AADT LEGEND ── */
+#aadt-legend{display:none;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px;padding:8px 12px;background:var(--surface-hi);border-radius:var(--radius-sm);font-size:9px;font-family:var(--font-mono)}
+.aadt-swatch{display:flex;align-items:center;gap:5px;color:var(--text-2)}
+.aadt-line{width:24px;height:4px;border-radius:2px}
+#aadt-legend .aadt-src{font-size:8px;color:var(--text-3);margin-left:auto}
+
 /* ── WEATHER CONTROL ── */
 .wx-ctrl-box{background:rgba(8,12,24,.9);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;min-width:170px;backdrop-filter:blur(8px);font-family:var(--font-mono)}
 html.light .wx-ctrl-box{background:rgba(255,255,255,.95);border-color:rgba(0,0,0,.14)}
@@ -751,7 +757,7 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <button class="toggle-btn" id="tog-heat" onclick="toggleMapLayer('heat')">Heat Map</button>
     <button class="toggle-btn" id="tog-gwrheat" onclick="toggleMapLayer('gwrheat')" title="GWR coefficient heatmap — select a behavior card first">🔥 GWR Heatmap</button>
     <button class="toggle-btn on" id="tog-wx" onclick="toggleMapLayer('weather')">⛅ Weather</button>
-    <button class="toggle-btn" id="tog-aadt" onclick="toggleMapLayer('aadt')" title="Annual Average Daily Traffic — MWCOG/VDOT/MD SHA · Circle size &amp; color = traffic volume">🚗 AADT</button>
+    <button class="toggle-btn" id="tog-aadt" onclick="toggleMapLayer('aadt')" title="Annual Average Daily Traffic — Live data: DC DDOT/DCGIS 2023 · Road segments colored &amp; weighted by traffic volume">🚗 AADT</button>
     <button class="toggle-btn on" id="tog-const" onclick="toggleMapLayer('construction')">🚧 Construction</button>
     <div class="ctrl-sep"></div>
     <span class="ctrl-label">VIEW:</span>
@@ -773,6 +779,17 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <div class="map-card">
       <div id="risk-map"></div>
       <div id="wx-ctrl" class="wx-ctrl-box" style="position:absolute;top:24px;right:24px;z-index:400"><div class="wx-loading">⏳ Fetching weather…</div></div>
+      <!-- AADT legend — shown when AADT layer is active -->
+      <div id="aadt-legend">
+        <span style="font-weight:700;color:var(--text-2);margin-right:4px">AADT</span>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#C1272D;height:7px"></div>&gt;80K</div>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#F06030;height:5px"></div>50–80K</div>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#F59E0B;height:4px"></div>30–50K</div>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#22C55E;height:3px"></div>15–30K</div>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#3B82F6;height:2px"></div>5–15K</div>
+        <div class="aadt-swatch"><div class="aadt-line" style="background:#8B96B0;height:1px"></div>&lt;5K</div>
+        <span class="aadt-src">DC DDOT · DCGIS 2023 · click road for AADT</span>
+      </div>
       <!-- Data distribution info panel — shown only in dist/both view -->
       <div id="dist-info-panel" style="display:none;margin-top:10px;padding:10px 14px;background:var(--surface-hi);border-radius:var(--radius-sm);border:1px solid var(--border)">
         <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
@@ -1815,64 +1832,33 @@ const BEHAVIOR_CORRIDORS=[
 // Source: MWCOG Regional Traffic Counts Annual (gis.mwcog.org) · VDOT 2024 · MD SHA
 // Values represent synthetic proxies calibrated to published regional traffic ranges.
 // ═══════════════════════════════════════════════════════════════════════
-const AADT_DATA={
-  // Ward 1 DC — Urban arterials
-  w1_16th:48000,   // 16th St NW
-  w1_georgia:38000, // Georgia Ave NW (central)
-  w1_columbia:28000, // Columbia Rd NW
-  // Ward 2 DC — Downtown core (highest volumes in region)
-  w2_penn:92000,   // Pennsylvania Ave NW
-  w2_kst:78000,    // K St NW
-  w2_mst:55000,    // M St NW
-  // Ward 6 DC — East
-  w6_hst:58000,    // H St NE / Benning Rd
-  w6_11th:42000,   // 11th St SE bridge corridor
-  w6_food:25000,   // Eastern boundary
-  // Ward 7 DC
-  w7_ecap:46000,   // East Capitol St NE
-  w7_benning:52000, // Benning Rd NE
-  w7_minn:22000,   // Minnesota Ave NE
-  // Ward 8 DC — Southern
-  w8_mlk:38000,    // MLK Jr Ave SE
-  w8_alabama:32000, // Alabama Ave SE
-  w8_branch:27000,  // Branch Ave SE
-  // Ward 3 DC — Northwest
-  w3_wisc:35000,   // Wisconsin Ave NW
-  w3_conn:44000,   // Connecticut Ave NW
-  // Ward 4 DC — Upper Northwest
-  w4_georgia:33000, // Georgia Ave NW (north)
-  w4_16th:30000,   // 16th St NW (north)
-  // Ward 5 DC — Northeast
-  w5_nyave:62000,  // New York Ave NE (major freight/commuter)
-  w5_rhode:30000,  // Rhode Island Ave NE
-  // Arlington VA
-  arl_pike:65000,  // Columbia Pike (one of busiest in NoVA)
-  arl_lee:36000,   // Lee Hwy / Route 29
-  arl_wash:28000,  // Washington Blvd
-  // Alexandria VA
-  alx_king:38000,  // King St / Route 7
-  alx_mtvernon:22000, // Mt Vernon Ave
-  alx_route1:48000, // US-1 (Richmond Hwy)
-  // Montgomery County MD
-  mon_georgia:32000, // Georgia Ave (MD 97)
-  mon_colesville:28000, // Colesville Rd / US-29
-  mon_veirs:18000,  // Veirs Mill Rd
-  mon_univ:22000,  // University Blvd
-  // Prince George's County MD
-  pg_branch:26000,  // Branch Ave (MD 5)
-  pg_marlboro:18000, // Marlboro Pike
-  pg_central:15000,  // Central PG suburban
-  pg_newhamshire:21000, // New Hampshire Ave
-  // Fairfax County VA
-  fx_colpike:52000, // Columbia Pike (Fairfax ext.)
-  fx_route7:58000,  // Leesburg Pike / Route 7
-  fx_dulles:72000,  // Dulles Toll Rd corridor
-  fx_route29:34000, // Lee Hwy / Route 29
-  fx_route50:42000, // Arlington Blvd / Route 50
-  fx_route1s:45000, // US-1 South
-  fx_tysons:48000,  // Tyco Rd / Tysons area
-  fx_reston:28000   // Reston Pkwy
-};
+// ── AADT helpers ─────────────────────────────────────────────────────
+// Source: DC DDOT / DCGIS 2023 Traffic Volume (live API)
+// https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_TrafficVolume_WebMercator/MapServer/4
+function aadtColor(v){
+  if(v>=80000)return"#C1272D";  // red — very high
+  if(v>=50000)return"#F06030";  // orange
+  if(v>=30000)return"#F59E0B";  // amber
+  if(v>=15000)return"#22C55E";  // green
+  if(v>=5000) return"#3B82F6";  // blue
+  return"#8B96B0";               // gray — local/residential
+}
+function aadtWeight(v){
+  if(v>=80000)return 7;
+  if(v>=50000)return 5;
+  if(v>=30000)return 4;
+  if(v>=15000)return 3;
+  if(v>=5000) return 2;
+  return 1;
+}
+function aadtLabel(v){
+  if(v>=80000)return"VERY HIGH (>80K VPD)";
+  if(v>=50000)return"HIGH (50–80K VPD)";
+  if(v>=30000)return"MOD-HIGH (30–50K VPD)";
+  if(v>=15000)return"MODERATE (15–30K VPD)";
+  if(v>=5000) return"LOW (5–15K VPD)";
+  return"LOCAL (<5K VPD)";
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // UTILITY
@@ -2051,7 +2037,7 @@ function renderTopZones(){
 // ═══════════════════════════════════════════════════════════════════════
 
 let googleMap=null,choroplethPolygons=[],heatmapLayer=null,constMarkers=[],corridorPolylines=[],wxInfoWindow=null;
-let aadtMarkers=[],showAadt=false;
+let aadtPolylines=[],showAadt=false,aadtLoaded=false,aadtInfoWin=null;
 let collisionDots=null,videoDots=null,studyOutline=null;
 let gwrHeatmapLayer=null,showGWRHeat=false,gwrHeatBehaviorKey=null;
 let selectedZonePolygon=null,showZones=true,showHeat=false,showWx=true,showConst=true,showCorridors=true;
@@ -2088,7 +2074,7 @@ function setMapView(mode){
   choroplethPolygons.forEach(p=>p.setOptions({visible:showRisk&&showZones}));
   corridorPolylines.forEach(p=>p.setMap((showRisk&&showCorridors)?googleMap:null));
   constMarkers.forEach(m=>m.setMap((showRisk&&showConst)?googleMap:null));
-  aadtMarkers.forEach(m=>m.setMap((showRisk&&showAadt)?googleMap:null));
+  aadtPolylines.forEach(p=>p.setMap(showAadt?googleMap:null));
   // Distribution layers — use setMap (Markers/Polylines use setMap, Polygons use setVisible)
   if(collisionDots)collisionDots.forEach(m=>m.setMap(showData?googleMap:null));
   if(videoDots)videoDots.forEach(m=>m.setMap(showData?googleMap:null));
@@ -2186,7 +2172,6 @@ function _createGoogleMap(mapDiv){
   buildGMChoropleth();
   buildGMCorridors();
   buildGMConstruction();
-  buildAADTLayer();
   buildStudyOutline();
   buildCollisionDots();
   buildVideoDots();
@@ -2329,27 +2314,66 @@ function buildGMConstruction(){
 
 // ── AADT Traffic Volume Layer ─────────────────────────────────────────
 
-function buildAADTLayer(){
+function clearAADTLayer(){
+  aadtPolylines.forEach(p=>p.setMap(null));
+  aadtPolylines=[];
+}
+
+async function buildAADTLayer(){
   if(!googleMap)return;
-  aadtMarkers.forEach(m=>m.setMap(null));
-  aadtMarkers=[];
-  BEHAVIOR_CORRIDORS.forEach(corr=>{
-    const aadt=AADT_DATA[corr.id]||20000;
-    const mid=corr.coords[Math.floor(corr.coords.length/2)];
-    // Color scale: red >70k, amber 40-70k, blue 20-40k, green <20k
-    const color=aadt>=70000?"#C1272D":aadt>=40000?"#F59E0B":aadt>=20000?"#3B82F6":"#22C55E";
-    const radius=Math.max(7,Math.min(20,aadt/4000));
-    const marker=new google.maps.Marker({
-      position:{lat:mid[0],lng:mid[1]},
-      map:showAadt?googleMap:null,
-      title:`${corr.name} — AADT: ${aadt.toLocaleString()} VPD`,
-      icon:{path:google.maps.SymbolPath.CIRCLE,scale:radius,fillColor:color,fillOpacity:0.70,strokeColor:"#fff",strokeWeight:1.5},
-      zIndex:8
-    });
-    const infoWin=new google.maps.InfoWindow({content:`<div class="lf-tip"><b style="color:${color}">🚗 ${corr.name}</b><br><span style="color:var(--text-3);font-size:9px">${corr.zone}</span><br><span style="font-size:11px;font-weight:700;color:${color}">${aadt.toLocaleString()} VPD</span> <span style="font-size:9px;color:var(--text-3)">Annual Avg Daily Traffic</span><br><span style="background:${color}22;color:${color};padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700">${aadt>=70000?"VERY HIGH":aadt>=40000?"HIGH":aadt>=20000?"MODERATE":"LOW"} VOLUME</span><br><span style="font-size:9px;color:var(--text-3);margin-top:4px;display:block">Source: MWCOG Regional Traffic Counts / VDOT / MD SHA (calibrated synthetic)</span></div>`});
-    marker.addListener("click",()=>infoWin.open(googleMap,marker));
-    aadtMarkers.push(marker);
-  });
+  clearAADTLayer();
+  const btn=document.getElementById("tog-aadt");
+  if(btn)btn.textContent="🚗 AADT ⏳";
+  const BASE="https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_TrafficVolume_WebMercator/MapServer/4/query";
+  let total=0,offset=0,hasMore=true;
+  try{
+    while(hasMore){
+      const params=new URLSearchParams({
+        where:"AADT>0",outFields:"AADT",returnGeometry:"true",
+        outSR:"4326",f:"geojson",resultRecordCount:"2000",resultOffset:String(offset)
+      });
+      const resp=await fetch(`${BASE}?${params}`);
+      if(!resp.ok)throw new Error("HTTP "+resp.status);
+      const gj=await resp.json();
+      if(!gj.features||gj.features.length===0)break;
+      for(const feat of gj.features){
+        const aadt=feat.properties&&feat.properties.AADT||0;
+        if(!feat.geometry||aadt<500)continue;
+        const geom=feat.geometry;
+        // Handle both LineString and MultiLineString
+        const segments=geom.type==="MultiLineString"?geom.coordinates:geom.type==="LineString"?[geom.coordinates]:[];
+        const color=aadtColor(aadt);
+        const weight=aadtWeight(aadt);
+        for(const seg of segments){
+          if(!seg||seg.length<2)continue;
+          const path=seg.map(c=>({lat:c[1],lng:c[0]}));
+          const line=new google.maps.Polyline({
+            path,strokeColor:color,strokeOpacity:0.78,strokeWeight:weight,
+            map:googleMap,zIndex:6,clickable:true
+          });
+          line.addListener("click",function(e){
+            if(aadtInfoWin)aadtInfoWin.close();
+            aadtInfoWin=new google.maps.InfoWindow({
+              content:`<div class="lf-tip"><b style="color:${color}">🚗 ${aadt.toLocaleString()} VPD</b><br><span style="background:${color}22;color:${color};padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700">${aadtLabel(aadt)}</span><br><span style="font-size:9px;color:#8B96B0;display:block;margin-top:4px">Annual Avg Daily Traffic · DC DDOT / DCGIS 2023</span></div>`,
+              position:e.latLng
+            });
+            aadtInfoWin.open(googleMap);
+          });
+          aadtPolylines.push(line);
+          total++;
+        }
+      }
+      if(gj.features.length<2000)hasMore=false;
+      else offset+=2000;
+    }
+    aadtLoaded=true;
+    if(btn)btn.innerHTML=`🚗 AADT <span style="font-size:8px;opacity:.7">${total.toLocaleString()}</span>`;
+    const legend=document.getElementById("aadt-legend");
+    if(legend)legend.style.display="flex";
+  }catch(err){
+    console.warn("AADT live fetch failed:",err.message);
+    if(btn)btn.textContent="🚗 AADT (offline)";
+  }
 }
 
 // ── Behavior Corridor Layer ───────────────────────────────────────────
@@ -2766,8 +2790,15 @@ function toggleMapLayer(which){
   } else if(which==="aadt"){
     showAadt=!showAadt;
     document.getElementById("tog-aadt").classList.toggle("on",showAadt);
-    if(showAadt&&aadtMarkers.length===0)buildAADTLayer();
-    else aadtMarkers.forEach(m=>m.setMap(showAadt?googleMap:null));
+    const legend=document.getElementById("aadt-legend");
+    if(showAadt){
+      if(!aadtLoaded)buildAADTLayer();
+      else aadtPolylines.forEach(p=>p.setMap(googleMap));
+      if(legend)legend.style.display="flex";
+    }else{
+      aadtPolylines.forEach(p=>p.setMap(null));
+      if(legend)legend.style.display="none";
+    }
   } else if(which==="construction"){
     showConst=!showConst;
     document.getElementById("tog-const").classList.toggle("on",showConst);
