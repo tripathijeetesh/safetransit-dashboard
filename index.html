@@ -1066,100 +1066,6 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     <p class="perf-interp">The GWR model substantially outperforms the global OLS baseline by allowing the relationship between operator behaviors and collision risk to vary across geographic locations — a property called <strong>spatial non-stationarity</strong>. Where OLS produces a single coefficient for the entire network, GWR estimates location-specific coefficients for each of 1,609 Census Block Groups, revealing that the same operator behavior carries significantly different collision risk depending on local road design, land use, and traffic context. The ARIMAX temporal model separately establishes that aggregate bus video event counts are a statistically significant leading indicator of collision rates — with a measurable lag window that creates a real-time opportunity for preventive intervention before incidents occur.</p>
   </div>
 
-  <!-- MODEL ARCHITECTURE DIAGRAM -->
-  <div class="panel mb-16">
-    <div class="panel-hdr">
-      <div class="panel-title">Model Architecture</div>
-      <div class="panel-badge" style="background:rgba(120,118,200,.12);color:#7876C8">Pipeline Overview</div>
-    </div>
-    <div style="font-size:10px;color:var(--text-3);font-family:var(--font-body);margin-bottom:12px">From raw data to actionable risk intelligence · <em>Click any node to drill into that stage</em></div>
-    <div style="max-width:680px;margin:0 auto">
-      <svg id="arch-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 558" style="width:100%;display:block;font-family:Inter,system-ui,sans-serif">
-        <defs>
-          <marker id="arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
-            <polygon points="0 0, 10 3.5, 0 7" fill="#9898AA"/>
-          </marker>
-        </defs>
-        <!-- DATA INGESTION -->
-        <g class="arch-node" onclick="showArchDetail('ingest')" data-id="ingest">
-          <rect x="200" y="24" width="280" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
-          <text x="340" y="51" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Data ingestion</text>
-          <text x="340" y="71" text-anchor="middle" font-size="10.5" fill="#888">Collisions, video events, weather, AADT</text>
-        </g>
-        <!-- Arrow 1 -->
-        <line x1="340" y1="88" x2="340" y2="114" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <!-- FEATURE ENGINEERING -->
-        <g class="arch-node" onclick="showArchDetail('features')" data-id="features">
-          <rect x="182" y="118" width="316" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
-          <text x="340" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Feature engineering</text>
-          <text x="340" y="165" text-anchor="middle" font-size="10.5" fill="#888">Z-score standardization, CBG spatial join</text>
-        </g>
-        <!-- Arrow 2 -->
-        <line x1="340" y1="182" x2="340" y2="205" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <!-- DASHED MODEL LAYER CONTAINER -->
-        <rect x="16" y="208" width="648" height="138" rx="14" fill="rgba(120,118,200,0.04)" stroke="#9898D0" stroke-width="1.5" stroke-dasharray="7,4"/>
-        <text x="30" y="226" font-size="10.5" fill="#9898C8" font-style="italic">Model layer</text>
-        <!-- ARIMAX -->
-        <g class="arch-node" onclick="showArchDetail('arimax')" data-id="arimax">
-          <rect x="32" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
-          <text x="121" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">ARIMAX</text>
-          <text x="121" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Temporal leading</text>
-          <text x="121" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">indicators</text>
-        </g>
-        <!-- GWR -->
-        <g class="arch-node" onclick="showArchDetail('gwr')" data-id="gwr">
-          <rect x="251" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
-          <text x="340" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">GWR model</text>
-          <text x="340" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Spatial risk</text>
-          <text x="340" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">coefficients</text>
-        </g>
-        <!-- RANDOM FOREST -->
-        <g class="arch-node" onclick="showArchDetail('rf')" data-id="rf">
-          <rect x="470" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
-          <text x="559" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">Random Forest</text>
-          <text x="559" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Non-linear risk</text>
-          <text x="559" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">scoring</text>
-        </g>
-        <!-- Converging lines: three stubs → horizontal → single arrow down -->
-        <line x1="121" y1="320" x2="121" y2="352" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="340" y1="320" x2="340" y2="352" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="559" y1="320" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="121" y1="352" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="340" y1="352" x2="340" y2="373" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <!-- RISK SCORING ENGINE -->
-        <g class="arch-node" onclick="showArchDetail('scoring')" data-id="scoring">
-          <rect x="182" y="376" width="316" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
-          <text x="340" y="403" text-anchor="middle" font-size="14" font-weight="700" fill="#1E6B4A">Risk scoring engine</text>
-          <text x="340" y="423" text-anchor="middle" font-size="10.5" fill="#2D8060">Composite risk index per CBG</text>
-        </g>
-        <!-- Split: down → horizontal → two downward arrows -->
-        <line x1="340" y1="440" x2="340" y2="458" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="182" y1="458" x2="498" y2="458" stroke="#9898AA" stroke-width="1.5"/>
-        <line x1="182" y1="458" x2="182" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <line x1="498" y1="458" x2="498" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
-        <!-- SPATIAL VISUALIZATION -->
-        <g class="arch-node" onclick="showArchDetail('spatial')" data-id="spatial">
-          <rect x="58" y="480" width="248" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
-          <text x="182" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#1E6B4A">Spatial visualization</text>
-          <text x="182" y="526" text-anchor="middle" font-size="10.5" fill="#2D8060">GWR heatmaps, risk maps</text>
-        </g>
-        <!-- ALERTS & MONITORING -->
-        <g class="arch-node" onclick="showArchDetail('alerts')" data-id="alerts">
-          <rect x="374" y="480" width="248" height="64" rx="12" fill="#F5E9D5" stroke="#C99050" stroke-width="1.5"/>
-          <text x="498" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#7A4810">Alerts &amp; monitoring</text>
-          <text x="498" y="526" text-anchor="middle" font-size="10.5" fill="#9A6020">Threshold-based triggers</text>
-        </g>
-      </svg>
-    </div>
-    <!-- Detail panel - updates on node click -->
-    <div id="arch-detail" class="arch-detail-panel">
-      <div class="arch-detail-default">
-        <span style="font-size:24px;line-height:1;opacity:.35">↑</span>
-        <div><strong style="color:var(--text-2)">Click any node above</strong> to drill into that pipeline stage — view technical specifications, data inputs, and each component's role in the composite risk scoring workflow.</div>
-      </div>
-    </div>
-  </div>
-
   <div class="grid-3 mb-16">
     <div class="model-card"><div class="model-accent" style="background:var(--blue)"></div>
       <div class="model-card-top"><div><div class="model-name">ARIMAX(3,0,3)</div><div class="model-type">Time Series · Temporal</div></div><span class="model-badge" style="background:rgba(59,130,246,.15);color:var(--blue)">PRIMARY</span></div>
@@ -1258,6 +1164,100 @@ html.light .status-banner{background:linear-gradient(135deg,#F0FDF4,#EFF6FF);bor
     </div>
     <div style="margin-top:14px;padding:10px 14px;background:rgba(43,91,168,.08);border:1px solid rgba(43,91,168,.2);border-radius:var(--radius-sm);font-size:10px;color:var(--text-2);font-family:var(--font-body);line-height:1.6">
       <b style="color:var(--navy-light)">How the 4 models work together:</b> ARIMAX handles temporal forecasting (when will collisions spike?). GWR identifies spatial behavior-collision relationships (where and which behaviors matter most?). Random Forest and XGBoost classify current zone risk tiers (what is the risk level right now?). Together they form a complete early-warning system — from leading indicators to geographic targeting to actionable risk scores.
+    </div>
+  </div>
+
+  <!-- MODEL ARCHITECTURE DIAGRAM -->
+  <div class="panel mb-16">
+    <div class="panel-hdr">
+      <div class="panel-title">Model Architecture</div>
+      <div class="panel-badge" style="background:rgba(120,118,200,.12);color:#7876C8">Pipeline Overview</div>
+    </div>
+    <div style="font-size:10px;color:var(--text-3);font-family:var(--font-body);margin-bottom:12px">From raw data to actionable risk intelligence · <em>Click any node to drill into that stage</em></div>
+    <div style="max-width:680px;margin:0 auto">
+      <svg id="arch-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 558" style="width:100%;display:block;font-family:Inter,system-ui,sans-serif">
+        <defs>
+          <marker id="arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#9898AA"/>
+          </marker>
+        </defs>
+        <!-- DATA INGESTION -->
+        <g class="arch-node" onclick="showArchDetail('ingest')" data-id="ingest">
+          <rect x="200" y="24" width="280" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
+          <text x="340" y="51" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Data ingestion</text>
+          <text x="340" y="71" text-anchor="middle" font-size="10.5" fill="#888">Collisions, video events, weather, AADT</text>
+        </g>
+        <!-- Arrow 1 -->
+        <line x1="340" y1="88" x2="340" y2="114" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- FEATURE ENGINEERING -->
+        <g class="arch-node" onclick="showArchDetail('features')" data-id="features">
+          <rect x="182" y="118" width="316" height="64" rx="12" fill="#F2EFE9" stroke="#C4BEB5" stroke-width="1.5"/>
+          <text x="340" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">Feature engineering</text>
+          <text x="340" y="165" text-anchor="middle" font-size="10.5" fill="#888">Z-score standardization, CBG spatial join</text>
+        </g>
+        <!-- Arrow 2 -->
+        <line x1="340" y1="182" x2="340" y2="205" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- DASHED MODEL LAYER CONTAINER -->
+        <rect x="16" y="208" width="648" height="138" rx="14" fill="rgba(120,118,200,0.04)" stroke="#9898D0" stroke-width="1.5" stroke-dasharray="7,4"/>
+        <text x="30" y="226" font-size="10.5" fill="#9898C8" font-style="italic">Model layer</text>
+        <!-- ARIMAX -->
+        <g class="arch-node" onclick="showArchDetail('arimax')" data-id="arimax">
+          <rect x="32" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="121" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">ARIMAX</text>
+          <text x="121" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Temporal leading</text>
+          <text x="121" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">indicators</text>
+        </g>
+        <!-- GWR -->
+        <g class="arch-node" onclick="showArchDetail('gwr')" data-id="gwr">
+          <rect x="251" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="340" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">GWR model</text>
+          <text x="340" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Spatial risk</text>
+          <text x="340" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">coefficients</text>
+        </g>
+        <!-- RANDOM FOREST -->
+        <g class="arch-node" onclick="showArchDetail('rf')" data-id="rf">
+          <rect x="470" y="230" width="178" height="90" rx="10" fill="#EAE8F6" stroke="#7876C8" stroke-width="1.5"/>
+          <text x="559" y="260" text-anchor="middle" font-size="13" font-weight="700" fill="#3D3A9E">Random Forest</text>
+          <text x="559" y="279" text-anchor="middle" font-size="10" fill="#5C5AB0">Non-linear risk</text>
+          <text x="559" y="294" text-anchor="middle" font-size="10" fill="#5C5AB0">scoring</text>
+        </g>
+        <!-- Converging lines: three stubs → horizontal → single arrow down -->
+        <line x1="121" y1="320" x2="121" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="340" y1="320" x2="340" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="559" y1="320" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="121" y1="352" x2="559" y2="352" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="340" y1="352" x2="340" y2="373" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- RISK SCORING ENGINE -->
+        <g class="arch-node" onclick="showArchDetail('scoring')" data-id="scoring">
+          <rect x="182" y="376" width="316" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
+          <text x="340" y="403" text-anchor="middle" font-size="14" font-weight="700" fill="#1E6B4A">Risk scoring engine</text>
+          <text x="340" y="423" text-anchor="middle" font-size="10.5" fill="#2D8060">Composite risk index per CBG</text>
+        </g>
+        <!-- Split: down → horizontal → two downward arrows -->
+        <line x1="340" y1="440" x2="340" y2="458" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="182" y1="458" x2="498" y2="458" stroke="#9898AA" stroke-width="1.5"/>
+        <line x1="182" y1="458" x2="182" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <line x1="498" y1="458" x2="498" y2="477" stroke="#9898AA" stroke-width="1.5" marker-end="url(#arr-d)"/>
+        <!-- SPATIAL VISUALIZATION -->
+        <g class="arch-node" onclick="showArchDetail('spatial')" data-id="spatial">
+          <rect x="58" y="480" width="248" height="64" rx="12" fill="#D5EDE6" stroke="#5A9F87" stroke-width="1.5"/>
+          <text x="182" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#1E6B4A">Spatial visualization</text>
+          <text x="182" y="526" text-anchor="middle" font-size="10.5" fill="#2D8060">GWR heatmaps, risk maps</text>
+        </g>
+        <!-- ALERTS & MONITORING -->
+        <g class="arch-node" onclick="showArchDetail('alerts')" data-id="alerts">
+          <rect x="374" y="480" width="248" height="64" rx="12" fill="#F5E9D5" stroke="#C99050" stroke-width="1.5"/>
+          <text x="498" y="507" text-anchor="middle" font-size="13" font-weight="700" fill="#7A4810">Alerts &amp; monitoring</text>
+          <text x="498" y="526" text-anchor="middle" font-size="10.5" fill="#9A6020">Threshold-based triggers</text>
+        </g>
+      </svg>
+    </div>
+    <!-- Detail panel - updates on node click -->
+    <div id="arch-detail" class="arch-detail-panel">
+      <div class="arch-detail-default">
+        <span style="font-size:24px;line-height:1;opacity:.35">↑</span>
+        <div><strong style="color:var(--text-2)">Click any node above</strong> to drill into that pipeline stage — view technical specifications, data inputs, and each component's role in the composite risk scoring workflow.</div>
+      </div>
     </div>
   </div>
 </div>
